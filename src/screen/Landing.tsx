@@ -49,12 +49,6 @@ const Landing: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flexGrow: 1, flexBasis: 0, width: '100%' }}>
       <View style={[styles.container, { backgroundColor: theme.background.main }]}>
-        <Button
-          backgroundColor={theme.primary.main}
-          onPress={handleAddPlayer}
-          textColor={theme.primary.text.primary}
-          title='Add new player'
-        />
 
       {fieldArray.fields.map((field, index) => {
         return (
@@ -77,6 +71,14 @@ const Landing: React.FC = () => {
           </HStack>
         )
       })}
+
+           <Button
+          backgroundColor={theme.primary.main}
+          onPress={handleAddPlayer}
+          textColor={theme.primary.text.primary}
+          title='Add new player'
+        />
+
       </View>
     </ScrollView>
   )
