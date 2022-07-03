@@ -36,14 +36,12 @@ const Timer: React.FC = () => {
 
   return (
     <VStack alignItems='center' backgroundColor={backgroundColor} grow={1}>
-      <Text>Asd</Text>
-
       <Spacer height={16} />
 
-      <VStack>
-        <Text size={52}>{Math.round(countdown / 1000)}</Text>
+      <VStack alignItems='center' justifyContent='center'>
+        <Text size={32}>{players[currentPlayer].name}</Text>
 
-      <Text>{players[currentPlayer].name}, {players[currentPlayer].time} s</Text>
+        <Text size={88}>{Math.round(countdown / 1000)}</Text>
       </VStack>
 
       {players.map((player, index) => (
