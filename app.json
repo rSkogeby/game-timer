@@ -2,6 +2,7 @@
   "expo": {
     "name": "game-timer",
     "slug": "game-timer",
+    "owner": "rskogeby",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
