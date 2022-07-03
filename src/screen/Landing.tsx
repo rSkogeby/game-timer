@@ -81,19 +81,19 @@ const Landing: React.FC = () => {
               </VStack>
 
               <Button
-                backgroundColor={theme.secondary.light}
+                backgroundColor='#fff'
                 onPress={() => fieldArray.remove(index)}
-                textColor={theme.secondary.text.primary}
-                title='Delete'
+                textColor='#000'
+                title='delete'
               />
             </HStack>
           )
         })}
 
         <Button
-          backgroundColor={theme.secondary.main}
+          backgroundColor={theme.primary.light}
           onPress={handleAddPlayer}
-          textColor={theme.secondary.text.primary}
+          textColor={theme.primary.text.primary}
           title='Add new player'
         />
 
