@@ -9,8 +9,9 @@ import Button from '../component/atom/Button'
 import { TextField } from '../component/atom/TextField'
 import yup, { yupResolver } from '../lib/validation'
 import useTheme from '../util/useTheme'
+import useNavigation from '../util/useNavigation'
 
-interface Player {
+export interface Player {
   name: string
   time: string
 }
@@ -28,12 +29,13 @@ const schema = yup.object().shape<SchemaInput>({
 })
 
 const Landing: React.FC = () => {
+  const [navigation] = useNavigation<'Landing'>()
   const { theme } = useTheme()
   const insets = useSafeAreaInsets()
 
   const form = useForm<SchemaInput>({
     criteriaMode: 'all',
-    defaultValues: { players: [{ name: '', time: '0' }]},
+    defaultValues: { players: [{ name: '', time: '10' }]},
     mode: 'onTouched',
     resolver: yupResolver(schema)
   })
@@ -45,8 +47,12 @@ const Landing: React.FC = () => {
 
   const handleAddPlayer = (): void => {
     const players = form.getValues().players
-    const defaultTime = players?.[players.length - 1].time ?? '0'
+    const defaultTime = players?.[players.length - 1]?.time ?? '10'
     fieldArray.append({ name: '', time: defaultTime })
+  }
+
+  const handleStartTimer = (): void => {
+    navigation.navigate('Timer')
   }
 
   return (
@@ -73,6 +79,13 @@ const Landing: React.FC = () => {
                   type='number-pad'
                 />
               </VStack>
+
+              <Button
+                backgroundColor={theme.secondary.light}
+                onPress={() => fieldArray.remove(index)}
+                textColor={theme.secondary.text.primary}
+                title='Delete'
+              />
             </HStack>
           )
         })}
@@ -88,7 +101,7 @@ const Landing: React.FC = () => {
 
         <Button
           backgroundColor={theme.primary.main}
-          onPress={handleAddPlayer}
+          onPress={handleStartTimer}
           textColor={theme.primary.text.primary}
           title='Start timer'
         />
