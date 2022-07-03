@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigationContainerRef, useNavigation, useRoute } from '@react-navigation/native'
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useRef } from 'react'
 

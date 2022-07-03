@@ -1,4 +1,3 @@
-import { getPathFromState as upstreamGetPathFromState, getStateFromPath as upstreamGetStateFromPath } from '@react-navigation/core'
 import type { LinkingOptions } from '@react-navigation/native'
 import * as upstream from '@react-navigation/native'
 
