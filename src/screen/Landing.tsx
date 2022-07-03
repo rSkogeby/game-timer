@@ -43,7 +43,9 @@ const Landing: React.FC = () => {
   const [playerList, setPlayerList] = useState<SchemaInput[]>([])
 
   const handleAddPlayer = (): void => {
-    fieldArray.append({ name: '', time: 0 })
+    const players = form.getValues().players
+    const defaultTime = players?.[players.length - 1].time ?? 0
+    fieldArray.append({ name: '', time: defaultTime })
   }
 
   return (
@@ -63,7 +65,7 @@ const Landing: React.FC = () => {
               form={form}
               name={`players.${index}.name`}
               title='Name'
-              />
+            />
           </VStack>
 
           <VStack>
