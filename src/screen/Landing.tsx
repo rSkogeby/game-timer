@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import Spacer from 'react-spacer'
 import { HStack, VStack } from 'react-stacked'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import Button from '../component/atom/Button'
 import { TextField } from '../component/atom/TextField'
@@ -27,6 +29,7 @@ const schema = yup.object().shape<SchemaInput>({
 
 const Landing: React.FC = () => {
   const { theme } = useTheme()
+  const insets = useSafeAreaInsets()
 
   const form = useForm<SchemaInput>({
     criteriaMode: 'all',
@@ -49,37 +52,48 @@ const Landing: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flexGrow: 1, flexBasis: 0, width: '100%' }}>
       <View style={[styles.container, { backgroundColor: theme.background.main }]}>
+        <Spacer height={0} grow={1} />
 
-      {fieldArray.fields.map((field, index) => {
-        return (
-          <HStack alignItems='center' key={field.id} maxWidth={300}>
-            <VStack grow={1}>
-              <TextField
-                form={form}
-                name={`players.${index}.name`}
-                title='Name'
-              />
-            </VStack>
+        {fieldArray.fields.map((field, index) => {
+          return (
+            <HStack alignItems='center' key={field.id} maxWidth={300}>
+              <VStack grow={1}>
+                <TextField
+                  form={form}
+                  name={`players.${index}.name`}
+                  title='Name'
+                />
+              </VStack>
 
-            <VStack>
-              <TextField
-                form={form}
-                name={`players.${index}.time`}
-                title='Time (s)'
-                type='number-pad'
-              />
-            </VStack>
-          </HStack>
-        )
-      })}
+              <VStack>
+                <TextField
+                  form={form}
+                  name={`players.${index}.time`}
+                  title='Time (s)'
+                  type='number-pad'
+                />
+              </VStack>
+            </HStack>
+          )
+        })}
 
-           <Button
-          backgroundColor={theme.primary.main}
+        <Button
+          backgroundColor={theme.secondary.main}
           onPress={handleAddPlayer}
-          textColor={theme.primary.text.primary}
+          textColor={theme.secondary.text.primary}
           title='Add new player'
         />
 
+        <Spacer height={0} grow={1} />
+
+        <Button
+          backgroundColor={theme.primary.main}
+          onPress={handleAddPlayer}
+          textColor={theme.primary.text.primary}
+          title='Start timer'
+        />
+
+        <Spacer height={insets.bottom} />
       </View>
     </ScrollView>
   )
