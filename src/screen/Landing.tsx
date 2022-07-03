@@ -10,7 +10,7 @@ import useTheme from '../util/useTheme'
 
 interface Player {
   name: string
-  time: number
+  time: string
 }
 interface SchemaInput {
   players: Player[]
@@ -20,7 +20,7 @@ const schema = yup.object().shape<SchemaInput>({
   players: yup.array().of(
     yup.object().shape<Player>({
       name: yup.string().required(),
-      time: yup.number().required()
+      time: yup.string().matches(/^\d+$/, 'The field should have digits only').required()
     }).required()
   ).required()
 })
@@ -30,8 +30,8 @@ const Landing: React.FC = () => {
 
   const form = useForm<SchemaInput>({
     criteriaMode: 'all',
-    defaultValues: { players: [{ name: '', time: 0 }]},
-    mode: 'onChange',
+    defaultValues: { players: [{ name: '', time: '0' }]},
+    mode: 'onTouched',
     resolver: yupResolver(schema)
   })
 
@@ -42,7 +42,7 @@ const Landing: React.FC = () => {
 
   const handleAddPlayer = (): void => {
     const players = form.getValues().players
-    const defaultTime = players?.[players.length - 1].time ?? 0
+    const defaultTime = players?.[players.length - 1].time ?? '0'
     fieldArray.append({ name: '', time: defaultTime })
   }
 
@@ -66,6 +66,7 @@ const Landing: React.FC = () => {
                 form={form}
                 name={`players.${index}.time`}
                 title='Time (s)'
+                type='number-pad'
               />
             </VStack>
           </HStack>

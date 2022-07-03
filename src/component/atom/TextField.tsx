@@ -1,7 +1,7 @@
-import { ErrorMessage } from '@hookform/error-message'
 import React from 'react'
 import { Control, Controller, FieldValues, UseFormReturn } from 'react-hook-form'
 import Input, { InputProps } from 'react-native-elements/dist/input/Input'
+import ErrorField from './ErrorField'
 
 type ColorValue = string
 
@@ -60,7 +60,7 @@ interface ControlledTextFieldProps {
 
 export function TextField<T extends FieldValues> (props: TextFieldProps<T> | ControlledTextFieldProps): JSX.Element {
   if ('form' in props) {
-    const errorMessage = props.form.formState.errors?.[props.name]?.message
+    const errorMessage = props.form.formState.errors?.[props.name]?.message as string
     const isError = errorMessage != null
 
     return (
@@ -101,12 +101,9 @@ export function TextField<T extends FieldValues> (props: TextFieldProps<T> | Con
           }}
         />
 
-        {errorMessage == null
-          ? null
-          : (
-            // @ts-expect-error
-            <ErrorMessage errors={props.form.formState.errors} name={props.name} />
-            )}
+        {errorMessage == null ? null : (
+          <ErrorField message={errorMessage} />
+        )}
       </>
     )
   }
