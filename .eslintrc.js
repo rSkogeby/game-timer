@@ -21,7 +21,13 @@ module.exports = {
         ['parent'],
         ['sibling', 'index']
       ],
-      'newlines-between': 'always'
+      'newlines-between': 'always',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false
+        }
+      ]
     }]
   }
 }
