@@ -10,6 +10,7 @@ import { TextField } from '../component/atom/TextField'
 import yup, { yupResolver } from '../lib/validation'
 import useTheme from '../util/useTheme'
 import useNavigation from '../util/useNavigation'
+import usePlayers from '../util/usePlayers'
 
 export interface Player {
   name: string
@@ -31,6 +32,7 @@ const schema = yup.object().shape<SchemaInput>({
 const Landing: React.FC = () => {
   const [navigation] = useNavigation<'Landing'>()
   const { theme } = useTheme()
+  const { updatePlayers } = usePlayers()
   const insets = useSafeAreaInsets()
 
   const form = useForm<SchemaInput>({
@@ -51,7 +53,8 @@ const Landing: React.FC = () => {
     fieldArray.append({ name: '', time: defaultTime })
   }
 
-  const handleStartTimer = (): void => {
+  const handleStartTimer = (input: SchemaInput): void => {
+    updatePlayers(input.players)
     navigation.navigate('Timer')
   }
 
@@ -101,7 +104,7 @@ const Landing: React.FC = () => {
 
         <Button
           backgroundColor={theme.primary.main}
-          onPress={handleStartTimer}
+          onPress={form.handleSubmit(handleStartTimer)}
           textColor={theme.primary.text.primary}
           title='Start timer'
         />
