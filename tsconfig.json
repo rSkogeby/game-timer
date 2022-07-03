@@ -1,4 +1,7 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "lib": ["dom", "es6", "es2016.array.include", "es2019.object", "es2019.array"],
+    "strict": true
+  },
   "extends": "expo/tsconfig.base"
 }
