@@ -1,15 +1,17 @@
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, NavigationContainerRef, useNavigation, useRoute } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useRef } from 'react'
+import { ParamList, linkingOptions } from './src/lib/navigation'
 
 import Landing from './src/screen/Landing'
 
 const RootStack = createNativeStackNavigator()
 
 const App: React.FC = () => {
+  const navigation = useRef<NavigationContainerRef<ParamList>>(null)
   return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName='Landing'>
+    <NavigationContainer linking={linkingOptions} ref={navigation}>
+      <RootStack.Navigator initialRouteName='Landing' >
         <RootStack.Screen name='Landing' component={Landing} />
       </RootStack.Navigator>
     </NavigationContainer>
