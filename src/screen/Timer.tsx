@@ -14,9 +14,16 @@ const Timer: React.FC = () => {
   const insets = useSafeAreaInsets()
   const { countdown, startCountdown } = useCountdown()
   const backgroundColor = theme.background.main
-  const [currentPlayer, setCurrentPlayer] = useState(0)
+  const [currentPlayer, setCurrentPlayer] = useState<number | null>(null)
 
   useEffect(() => {
+    if (currentPlayer === null) {
+      Speech.speak(players[0].name)
+      setCurrentPlayer(0)
+      startCountdown(Number(players[0].time) * 1000)
+      return
+    }
+
     if (currentPlayer > players.length) return
     if (countdown !== 0) return
 
@@ -36,8 +43,8 @@ const Timer: React.FC = () => {
       <Spacer height={16} grow={1} />
 
       <VStack alignItems='center' justifyContent='center'>
-        <TouchableOpacity onPress={() => startCountdown(Number(players[currentPlayer].time) * 1000)}>
-          <Text size={32}>{players[currentPlayer].name}</Text>
+        <TouchableOpacity onPress={() => startCountdown(Number(players[currentPlayer ?? 0].time) * 1000)}>
+          <Text size={32}>{players[currentPlayer ?? 0].name}</Text>
         </TouchableOpacity>
 
         <Text size={88}>{Math.round(countdown / 1000)}</Text>
