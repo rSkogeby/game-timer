@@ -1,4 +1,4 @@
-import type { LinkingOptions } from '@react-navigation/native'
+import type { LinkingOptions, ParamListBase } from '@react-navigation/native'
 import * as upstream from '@react-navigation/native'
 
 type NavigationRoute = { [Key in keyof ParamList]: { name: Key, params: ParamList[Key] } }[keyof ParamList]
@@ -8,8 +8,7 @@ export interface InitialNavigationState {
   routes: NavigationRoute[]
 }
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ParamList = {
+export interface ParamList extends ParamListBase {
   Landing: {}
 }
 
