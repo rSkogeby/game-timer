@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { HStack, VStack } from 'react-stacked'
 
 import Button from '../component/atom/Button'
@@ -40,8 +40,6 @@ const Landing: React.FC = () => {
     name: 'players'
   });
 
-  const [playerList, setPlayerList] = useState<SchemaInput[]>([])
-
   const handleAddPlayer = (): void => {
     const players = form.getValues().players
     const defaultTime = players?.[players.length - 1].time ?? 0
@@ -49,36 +47,38 @@ const Landing: React.FC = () => {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background.main }]}>
-      <Button
-        backgroundColor={theme.primary.main}
-        onPress={handleAddPlayer}
-        textColor={theme.primary.text.primary}
-        title='Append'
-      />
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flexGrow: 1, flexBasis: 0, width: '100%' }}>
+      <View style={[styles.container, { backgroundColor: theme.background.main }]}>
+        <Button
+          backgroundColor={theme.primary.main}
+          onPress={handleAddPlayer}
+          textColor={theme.primary.text.primary}
+          title='Add new player'
+        />
 
-    {fieldArray.fields.map((field, index) => {
-      return (
-        <HStack alignItems='center' key={field.id} maxWidth={300}>
-          <VStack grow={1}>
-            <TextField
-              form={form}
-              name={`players.${index}.name`}
-              title='Name'
-            />
-          </VStack>
+      {fieldArray.fields.map((field, index) => {
+        return (
+          <HStack alignItems='center' key={field.id} maxWidth={300}>
+            <VStack grow={1}>
+              <TextField
+                form={form}
+                name={`players.${index}.name`}
+                title='Name'
+              />
+            </VStack>
 
-          <VStack>
-            <TextField
-              form={form}
-              name={`players.${index}.time`}
-              title='Time (s)'
-            />
-          </VStack>
-        </HStack>
-      )
-    })}
-    </View>
+            <VStack>
+              <TextField
+                form={form}
+                name={`players.${index}.time`}
+                title='Time (s)'
+              />
+            </VStack>
+          </HStack>
+        )
+      })}
+      </View>
+    </ScrollView>
   )
 }
 
