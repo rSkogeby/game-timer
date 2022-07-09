@@ -1,16 +1,21 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import * as Speech from 'expo-speech'
-import { useIsFocused } from "@react-navigation/native"
 
 interface Return {
+  cancelCountdown: () => void
   countdown: number
+  countdownState: 'idle' | 'counting' | 'finished'
   startCountdown: (initialValue: number) => void
 }
 
 export default function useCountdown (): Return {
-  const isFocused = useIsFocused()
   const [countdown, setCountdown] = useState(0)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const [countdownRef, setCountdownRef] = useState<NodeJS.Timeout>()
+
+  const cancelCountdown = (): void => {
+    clearTimeout(countdownRef)
+    setCountdownRef(undefined)
+  }
 
   const startCountdown = (initialValue: number) => {
     setCountdown(initialValue)
@@ -23,17 +28,20 @@ export default function useCountdown (): Return {
 
     if (initialValue < 0.1) return
 
-    timeoutRef.current = setTimeout(() => { startCountdown(initialValue - 1000) }, 1000)
+    setCountdownRef(setTimeout(() => { startCountdown(initialValue - 1000) }, 1000))
   }
 
   useEffect(() => {
-    if (!isFocused) clearTimeout(timeoutRef.current)
-  }, [isFocused])
-
-  useEffect(() => clearTimeout(timeoutRef.current), [])
+    return () => {
+      clearTimeout(countdownRef)
+      setCountdownRef(undefined)
+    }
+  }, [])
 
   return useMemo(() => ({
+    cancelCountdown,
     countdown,
+    countdownState: countdownRef == null ? 'idle' : 'counting',
     startCountdown
-  }), [countdown])
+  }), [cancelCountdown, countdown, startCountdown, countdownRef])
 }

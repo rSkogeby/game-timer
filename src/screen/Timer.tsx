@@ -7,12 +7,13 @@ import usePlayers from '../util/usePlayers'
 import useTheme from '../util/useTheme'
 import * as Speech from 'expo-speech'
 import { TouchableOpacity } from 'react-native'
+import Button from '../component/atom/Button'
 
 const Timer: React.FC = () => {
   const { theme } = useTheme()
   const { players } = usePlayers()
   const insets = useSafeAreaInsets()
-  const { countdown, startCountdown } = useCountdown()
+  const { cancelCountdown, countdown, countdownState, startCountdown } = useCountdown()
   const backgroundColor = theme.background.main
   const [currentPlayer, setCurrentPlayer] = useState<number | null>(null)
 
@@ -50,7 +51,16 @@ const Timer: React.FC = () => {
         <Text size={88}>{Math.round(countdown / 1000)}</Text>
       </VStack>
 
-      <Spacer height={insets.bottom} grow={2} />
+      <Spacer height={0} grow={2} />
+
+      <Button
+        backgroundColor={countdownState === 'counting' ?  theme.secondary.light : theme.primary.main}
+        onPress={countdownState === 'counting' ? cancelCountdown : () => startCountdown(countdown)}
+        textColor={countdownState === 'counting' ? theme.secondary.text.primary : theme.primary.text.primary}
+        title={countdownState === 'counting' ? 'Pause' : 'Resume'}
+      />
+
+      <Spacer height={insets.bottom} />
     </VStack>
   )
 }

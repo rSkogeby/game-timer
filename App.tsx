@@ -15,7 +15,7 @@ const App: React.FC = () => {
     <PlayerProvider>
       <NavigationContainer linking={linkingOptions} ref={navigation}>
         <RootStack.Navigator initialRouteName='Landing'>
-          <RootStack.Screen name='Landing' component={Landing} />
+          <RootStack.Screen name='Settings' component={Landing} />
           <RootStack.Screen name='Timer' component={Timer} />
         </RootStack.Navigator>
       </NavigationContainer>
