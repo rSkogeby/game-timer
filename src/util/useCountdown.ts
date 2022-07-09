@@ -1,16 +1,19 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import * as Speech from 'expo-speech'
-import { useIsFocused } from "@react-navigation/native"
 
 interface Return {
+  cancelCountdown: () => void
   countdown: number
   startCountdown: (initialValue: number) => void
 }
 
 export default function useCountdown (): Return {
-  const isFocused = useIsFocused()
   const [countdown, setCountdown] = useState(0)
   const timeoutRef = useRef<NodeJS.Timeout>()
+
+  const cancelCountdown = (): void => {
+    clearTimeout(timeoutRef.current)
+  }
 
   const startCountdown = (initialValue: number) => {
     setCountdown(initialValue)
@@ -27,13 +30,14 @@ export default function useCountdown (): Return {
   }
 
   useEffect(() => {
-    if (!isFocused) clearTimeout(timeoutRef.current)
-  }, [isFocused])
-
-  useEffect(() => clearTimeout(timeoutRef.current), [])
+    return () => {
+      clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   return useMemo(() => ({
+    cancelCountdown,
     countdown,
     startCountdown
-  }), [countdown])
+  }), [cancelCountdown, countdown, startCountdown])
 }

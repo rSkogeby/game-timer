@@ -7,6 +7,7 @@ import usePlayers from '../util/usePlayers'
 import useTheme from '../util/useTheme'
 import * as Speech from 'expo-speech'
 import { TouchableOpacity } from 'react-native'
+import { useIsFocused } from '@react-navigation/core'
 
 const Timer: React.FC = () => {
   const { theme } = useTheme()
