@@ -65,7 +65,7 @@ const Landing: React.FC = () => {
 
         {fieldArray.fields.map((field, index) => {
           return (
-            <HStack alignItems='center' key={field.id} maxWidth={300}>
+            <HStack alignItems='center' key={field.id} maxWidth={400}>
               <VStack grow={1}>
                 <TextField
                   form={form}
