@@ -4,15 +4,17 @@ import * as Speech from 'expo-speech'
 interface Return {
   cancelCountdown: () => void
   countdown: number
+  countdownState: 'idle' | 'counting' | 'finished'
   startCountdown: (initialValue: number) => void
 }
 
 export default function useCountdown (): Return {
   const [countdown, setCountdown] = useState(0)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const [countdownRef, setCountdownRef] = useState<NodeJS.Timeout>()
 
   const cancelCountdown = (): void => {
-    clearTimeout(timeoutRef.current)
+    clearTimeout(countdownRef)
+    setCountdownRef(undefined)
   }
 
   const startCountdown = (initialValue: number) => {
@@ -26,18 +28,20 @@ export default function useCountdown (): Return {
 
     if (initialValue < 0.1) return
 
-    timeoutRef.current = setTimeout(() => { startCountdown(initialValue - 1000) }, 1000)
+    setCountdownRef(setTimeout(() => { startCountdown(initialValue - 1000) }, 1000))
   }
 
   useEffect(() => {
     return () => {
-      clearTimeout(timeoutRef.current)
+      clearTimeout(countdownRef)
+      setCountdownRef(undefined)
     }
   }, [])
 
   return useMemo(() => ({
     cancelCountdown,
     countdown,
+    countdownState: countdownRef == null ? 'idle' : 'counting',
     startCountdown
-  }), [cancelCountdown, countdown, startCountdown])
+  }), [cancelCountdown, countdown, startCountdown, countdownRef])
 }
