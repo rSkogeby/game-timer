@@ -57,7 +57,7 @@ const Landing: React.FC = () => {
 
   const handleStartTimer = (input: SchemaInput): void => {
     updatePlayers(input.players)
-    navigation.navigate('Timer')
+    navigation.navigate('Timer', {})
   }
 
   return (
