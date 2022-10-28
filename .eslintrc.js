@@ -1,11 +1,15 @@
+// FIXME:
+// This file is not being used by the testing infrastructure, it's only here to tell VS Code which settings to use.
+// https://github.com/microsoft/vscode-eslint/issues/498
+
 module.exports = {
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname
   },
   extends: [
-    'standard-with-typescript',
-    'standard-jsx'
+    './node_modules/ts-standard/node_modules/eslint-config-standard-with-typescript',
+    './node_modules/ts-standard/node_modules/eslint-config-standard-jsx'
   ],
   rules: {
     'sort-imports': [1, {
@@ -21,13 +25,7 @@ module.exports = {
         ['parent'],
         ['sibling', 'index']
       ],
-      'newlines-between': 'always',
-      '@typescript-eslint/no-misused-promises': [
-        'error',
-        {
-          checksVoidReturn: false
-        }
-      ]
+      'newlines-between': 'always'
     }]
   }
 }
