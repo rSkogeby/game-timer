@@ -1,17 +1,18 @@
 import React from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Spacer from 'react-spacer'
 import { HStack, VStack } from 'react-stacked'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import WithSeparator from 'react-with-separator'
 
 import Button from '../component/atom/Button'
-import { TextField } from '../component/atom/TextField'
+import FormTextInput from '../component/molecule/FormTextInput'
 import yup, { yupResolver } from '../lib/validation'
-import useTheme from '../util/useTheme'
+import useKeyboardBottomInsets from '../util/useKeyboardBottomInsets'
 import useNavigation from '../util/useNavigation'
 import usePlayers from '../util/usePlayers'
-import useKeyboardBottomInsets from '../util/useKeyboardBottomInsets'
+import useTheme from '../util/useTheme'
 
 export interface Player {
   name: string
@@ -39,7 +40,7 @@ const Landing: React.FC = () => {
 
   const form = useForm<SchemaInput>({
     criteriaMode: 'all',
-    defaultValues: { players: [{ name: '', time: '10' }]},
+    defaultValues: { players: [{ name: '', time: '10' }] },
     mode: 'onTouched',
     resolver: yupResolver(schema)
   })
@@ -47,7 +48,7 @@ const Landing: React.FC = () => {
   const fieldArray = useFieldArray({
     control: form.control,
     name: 'players'
-  });
+  })
 
   const handleAddPlayer = (): void => {
     const players = form.getValues().players
@@ -66,35 +67,38 @@ const Landing: React.FC = () => {
         <View style={styles.container}>
           <Spacer height={0} grow={1} />
 
-          {fieldArray.fields.map((field, index) => {
-            return (
-              <HStack alignItems='center' key={field.id} maxWidth={400}>
-                <VStack grow={1}>
-                  <TextField
-                    form={form}
-                    name={`players.${index}.name`}
-                    title='Name'
-                  />
-                </VStack>
+          <WithSeparator separator={<Spacer height={16} />} trailing>
+            {fieldArray.fields.map((field, index) => {
+              return (
+                <HStack alignItems='center' key={field.id} maxWidth={400}>
+                  <VStack grow={1}>
+                    <FormTextInput
+                      form={form}
+                      name={`players.${index}.name`}
+                      title='Name'
+                      type='default'
+                    />
+                  </VStack>
 
-                <VStack>
-                  <TextField
-                    form={form}
-                    name={`players.${index}.time`}
-                    title='Time (s)'
-                    type='number-pad'
-                  />
-                </VStack>
+                  <VStack>
+                    <FormTextInput
+                      form={form}
+                      name={`players.${index}.time`}
+                      title='Time (s)'
+                      type='digits'
+                    />
+                  </VStack>
 
-                <Button
-                  backgroundColor='#fff'
-                  onPress={() => fieldArray.remove(index)}
-                  textColor='#000'
-                  title='delete'
-                />
-              </HStack>
-            )
-          })}
+                  <Button
+                    backgroundColor='#fff'
+                    onPress={() => fieldArray.remove(index)}
+                    textColor='#000'
+                    title='delete'
+                  />
+                </HStack>
+              )
+            })}
+          </WithSeparator>
 
           <Button
             backgroundColor={theme.primary.light}

@@ -8,8 +8,8 @@ module.exports = {
     tsconfigRootDir: __dirname
   },
   extends: [
-    './node_modules/ts-standard/node_modules/eslint-config-standard-with-typescript',
-    './node_modules/ts-standard/node_modules/eslint-config-standard-jsx'
+    'standard-with-typescript',
+    'standard-jsx'
   ],
   rules: {
     'sort-imports': [1, {
