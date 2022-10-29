@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Spacer from 'react-spacer'
 import { Text, VStack } from 'react-stacked'
 
-import Button from '../component/atom/Button'
+import RectangleButton from '../component/molecule/RectangleButton'
 import useCountdown from '../util/useCountdown'
 import usePlayers from '../util/usePlayers'
 import useTheme from '../util/useTheme'
@@ -54,11 +54,11 @@ const Timer: React.FC = () => {
 
       <Spacer height={0} grow={2} />
 
-      <Button
-        backgroundColor={countdownState === 'counting' ? theme.secondary.light : theme.primary.main}
+      <RectangleButton
+        accentColor={countdownState === 'counting' ? theme.secondary.light : theme.primary.main}
         onPress={countdownState === 'counting' ? cancelCountdown : () => startCountdown(countdown)}
-        textColor={countdownState === 'counting' ? theme.secondary.text.primary : theme.primary.text.primary}
         title={countdownState === 'counting' ? 'Pause' : 'Resume'}
+        type='filled'
       />
 
       <Spacer height={insets.bottom} />
