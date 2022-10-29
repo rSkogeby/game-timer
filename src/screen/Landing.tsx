@@ -98,6 +98,8 @@ const Landing: React.FC = () => {
 
                   <RectangleButton
                     accentColor={theme.primary.main}
+                    iconName='label-remove'
+                    iconPosition='top'
                     onPress={handleRemovePlayer}
                     title='remove'
                     type='text'
