@@ -1,13 +1,13 @@
 import React from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Spacer from 'react-spacer'
 import { HStack, VStack } from 'react-stacked'
 import WithSeparator from 'react-with-separator'
 
-import Button from '../component/atom/Button'
 import FormTextInput from '../component/molecule/FormTextInput'
+import RectangleButton from '../component/molecule/RectangleButton'
 import yup, { yupResolver } from '../lib/validation'
 import useKeyboardBottomInsets from '../util/useKeyboardBottomInsets'
 import useNavigation from '../util/useNavigation'
@@ -64,74 +64,67 @@ const Landing: React.FC = () => {
   return (
     <VStack alignItems='center' backgroundColor={theme.background.main} grow={1}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flexGrow: 1, flexBasis: 0, width: '100%' }}>
-        <View style={styles.container}>
-          <Spacer height={0} grow={1} />
-
+        <VStack alignItems='center' grow={1}>
+          <Spacer grow={1} height={0} />
           <WithSeparator separator={<Spacer height={16} />} trailing>
             {fieldArray.fields.map((field, index) => {
               return (
-                <HStack alignItems='center' key={field.id} maxWidth={400}>
-                  <VStack grow={1}>
-                    <FormTextInput
-                      form={form}
-                      name={`players.${index}.name`}
-                      title='Name'
-                      type='default'
-                    />
-                  </VStack>
+                <HStack key={field.id} maxWidth={480} paddingHorizontal={16}>
+                  <FormTextInput
+                    form={form}
+                    name={`players.${index}.name`}
+                    title='Name'
+                    type='default'
+                  />
 
-                  <VStack>
+                  <Spacer width={16} />
+
+                  <HStack>
                     <FormTextInput
                       form={form}
                       name={`players.${index}.time`}
                       title='Time (s)'
                       type='digits'
                     />
-                  </VStack>
+                  </HStack>
 
-                  <Button
-                    backgroundColor='#fff'
+                  <Spacer width={16} />
+
+                  <RectangleButton
+                    accentColor={theme.primary.main}
                     onPress={() => fieldArray.remove(index)}
-                    textColor='#000'
                     title='delete'
+                    type='text'
                   />
                 </HStack>
               )
             })}
           </WithSeparator>
 
-          <Button
-            backgroundColor={theme.primary.light}
+          <RectangleButton
+            accentColor={theme.primary.main}
+            iconName='label-add'
             onPress={handleAddPlayer}
-            textColor={theme.primary.text.primary}
             title='Add new player'
+            type='text'
           />
 
           <Spacer height={16} grow={1} />
-        </View>
+        </VStack>
       </ScrollView>
 
       <Spacer height={keyboardBottomInsets} />
 
-      <Button
-        backgroundColor={theme.primary.main}
+      <RectangleButton
+        accentColor={theme.primary.main}
         onPress={form.handleSubmit(handleStartTimer)}
-        textColor={theme.primary.text.primary}
         title='Start timer'
+        type='filled'
       />
 
       <Spacer height={insets.bottom} />
     </VStack>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 
 export default Landing

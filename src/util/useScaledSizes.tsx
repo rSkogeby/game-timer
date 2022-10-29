@@ -1,5 +1,5 @@
 import { useDimensions } from '@react-native-community/hooks'
-import React, { createContext, ReactNode } from 'react'
+import React, { ReactNode, createContext } from 'react'
 import { Dimensions } from 'react-native'
 
 interface MapPoint {
@@ -56,6 +56,8 @@ function getValues (width: number) {
     labelIconSize: calculateScaledSize(width, { iPhonePro: 21, iPhoneProMax: 21, iPadAir: 32, iPadPro: 34 }),
     labelPadding: calculateScaledSize(width, { iPhonePro: 6, iPhoneProMax: 6, iPadAir: 8, iPadPro: 8 }),
     labelSize: calculateScaledSize(width, { iPhonePro: 14, iPhoneProMax: 14, iPadAir: 22, iPadPro: 22 }),
+    rectangleButtonHorizontalPadding: calculateScaledSize(width, { iPhonePro: 42, iPhoneProMax: 42, iPadAir: 64, iPadPro: 64 }),
+    rectangleButtonMinHeight: calculateScaledSize(width, { iPhonePro: 42, iPhoneProMax: 42, iPadAir: 64, iPadPro: 64 })
   }
 }
 

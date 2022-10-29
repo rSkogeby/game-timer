@@ -44,7 +44,7 @@ interface UseThemeReturn {
 const THEME = {
   background: getColors('#FFFFFF'),
   error: getColors('#DB5461'),
-  primary: getColors('#171738'),
+  primary: getColors('#343476'),
   secondary: getColors('#8EF9F3')
 }
 
