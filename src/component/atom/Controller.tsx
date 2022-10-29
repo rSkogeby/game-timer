@@ -1,9 +1,12 @@
-import { Control, FieldValues, Controller as Upstream, UseFormReturn } from 'react-hook-form'
+import dotProp from 'dot-prop'
+import React, { useEffect, useRef } from 'react'
+import { Control, FieldError, FieldValues, Controller as Upstream, UseFormReturn } from 'react-hook-form'
 import Spacer from 'react-spacer'
 import { VStack } from 'react-stacked'
 import WithSeparator from 'react-with-separator'
 
 import ErrorField from './ErrorField'
+import Shakable, { ShakableApi } from './Shakable'
 
 export type { FieldValues, UseFormReturn }
 
@@ -22,7 +25,14 @@ interface ControllerProps<TFieldValues extends FieldValues> {
 }
 
 export default function Controller<T extends FieldValues> (props: ControllerProps<T>): JSX.Element {
-  const errorMessage = props.form.formState.errors?.[props.name]?.message as string | undefined
+  const errorMessage = (dotProp.get(props.form.formState.errors, props.name) as FieldError)?.message
+  const shakableRef = useRef<ShakableApi>(null)
+
+  useEffect(() => {
+    if (errorMessage == null) return
+
+    shakableRef.current?.shake()
+  }, [errorMessage])
 
   return (
     <VStack alignSelf='stretch' grow={1}>
@@ -31,7 +41,11 @@ export default function Controller<T extends FieldValues> (props: ControllerProp
           control={props.form.control as Control<Record<string, any>> | undefined}
           defaultValue={props.defaultValue}
           name={props.name}
-          render={({ field: { onChange, onBlur, value } }) => props.render({ errorMessage, onChange, onBlur, value })}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Shakable ref={shakableRef}>
+              {props.render({ errorMessage, onChange, onBlur, value })}
+            </Shakable>
+          )}
         />
 
         {errorMessage == null

@@ -1,7 +1,7 @@
-import React from 'react'
 import Spacer from 'react-spacer'
 import { VStack } from 'react-stacked'
 
+import useTheme from '../../util/useTheme'
 import Controller, { FieldValues, UseFormReturn } from '../atom/Controller'
 import Label from '../atom/Label'
 import TextInput, { TextInputType } from '../atom/TextInput'
@@ -19,13 +19,17 @@ interface FormTextInputProps<TFieldValues extends FieldValues> {
 }
 
 export default function FormTextInput<T extends FieldValues> (props: FormTextInputProps<T>): JSX.Element {
+  const { theme } = useTheme()
+
   return (
     <Controller
       defaultValue={props.defaultValue}
       form={props.form}
       name={props.name}
       render={({ errorMessage, onChange, onBlur, value }) => {
-        const textColor = errorMessage == null ? '#000000' : '#ff0000'
+        const textColor = errorMessage == null ? '#000000' : theme.error.main
+        const backgroundColor = errorMessage == null ? theme.background.light : theme.error.light
+        const borderColor = errorMessage == null ? undefined : theme.error.dark
 
         const handleBlur = (): void => {
           onBlur()
@@ -46,6 +50,8 @@ export default function FormTextInput<T extends FieldValues> (props: FormTextInp
 
             <TextInput
               autoFocus={props.autoFocus}
+              backgroundColor={backgroundColor}
+              borderColor={borderColor}
               onBlur={handleBlur}
               onChange={onChange}
               onFocus={props.onFocus}

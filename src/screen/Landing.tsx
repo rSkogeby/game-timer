@@ -1,4 +1,3 @@
-import React from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -25,9 +24,9 @@ interface SchemaInput {
 const schema = yup.object().shape<SchemaInput>({
   players: yup.array().of(
     yup.object().shape<Player>({
-      name: yup.string().required(),
-      time: yup.string().matches(/^\d+$/, 'The field should have digits only').required()
-    }).required()
+      name: yup.string().required('Name is required'),
+      time: yup.string().matches(/^\d+$/, 'The field should have digits only').required('A time is required')
+    }).required('Missing required info')
   ).required()
 })
 
@@ -56,9 +55,11 @@ const Landing: React.FC = () => {
     fieldArray.append({ name: '', time: defaultTime })
   }
 
-  const handleStartTimer = (input: SchemaInput): void => {
-    updatePlayers(input.players)
-    navigation.navigate('Timer', {})
+  const handleStartTimer = (): void => {
+    form.handleSubmit((input: SchemaInput): void => {
+      updatePlayers(input.players)
+      navigation.navigate('Timer', {})
+    })().catch(() => {})
   }
 
   return (
@@ -126,7 +127,7 @@ const Landing: React.FC = () => {
 
       <RectangleButton
         accentColor={theme.primary.main}
-        onPress={form.handleSubmit(handleStartTimer)}
+        onPress={handleStartTimer}
         title='Start timer'
         type='filled'
       />
