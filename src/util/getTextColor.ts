@@ -13,9 +13,9 @@ function hex3ToHex6 (color: string): string {
 
 export function getContrastValue (backgroundColor: string): number {
   backgroundColor = hex3ToHex6(backgroundColor)
-  const red = hexToDec(backgroundColor.substring(1, 2))
-  const green = hexToDec(backgroundColor.substring(3, 2))
-  const blue = hexToDec(backgroundColor.substring(5, 2))
+  const red = hexToDec(backgroundColor.substring(1, 3))
+  const green = hexToDec(backgroundColor.substring(3, 5))
+  const blue = hexToDec(backgroundColor.substring(5, 7))
 
   return Math.sqrt(
     red * red * 0.241 +
