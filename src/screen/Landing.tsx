@@ -6,8 +6,8 @@ import Spacer from 'react-spacer'
 import { HStack, VStack } from 'react-stacked'
 import WithSeparator from 'react-with-separator'
 
-import Button from '../component/atom/Button'
 import FormTextInput from '../component/molecule/FormTextInput'
+import RectangleButton from '../component/molecule/RectangleButton'
 import yup, { yupResolver } from '../lib/validation'
 import useKeyboardBottomInsets from '../util/useKeyboardBottomInsets'
 import useNavigation from '../util/useNavigation'
@@ -89,22 +89,22 @@ const Landing: React.FC = () => {
                     />
                   </VStack>
 
-                  <Button
-                    backgroundColor='#fff'
+                  <RectangleButton
+                    accentColor='#000000'
                     onPress={() => fieldArray.remove(index)}
-                    textColor='#000'
                     title='delete'
+                    type='text'
                   />
                 </HStack>
               )
             })}
           </WithSeparator>
 
-          <Button
-            backgroundColor={theme.primary.light}
+          <RectangleButton
+            accentColor={theme.primary.light}
             onPress={handleAddPlayer}
-            textColor={theme.primary.text.primary}
             title='Add new player'
+            type='filled'
           />
 
           <Spacer height={16} grow={1} />
@@ -113,11 +113,11 @@ const Landing: React.FC = () => {
 
       <Spacer height={keyboardBottomInsets} />
 
-      <Button
-        backgroundColor={theme.primary.main}
+      <RectangleButton
+        accentColor={theme.primary.main}
         onPress={form.handleSubmit(handleStartTimer)}
-        textColor={theme.primary.text.primary}
         title='Start timer'
+        type='filled'
       />
 
       <Spacer height={insets.bottom} />
