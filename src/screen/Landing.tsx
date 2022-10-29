@@ -24,9 +24,9 @@ interface SchemaInput {
 const schema = yup.object().shape<SchemaInput>({
   players: yup.array().of(
     yup.object().shape<Player>({
-      name: yup.string().required(),
-      time: yup.string().matches(/^\d+$/, 'The field should have digits only').required()
-    }).required()
+      name: yup.string().required('Name is required'),
+      time: yup.string().matches(/^\d+$/, 'The field should have digits only').required('A time is required')
+    }).required('Missing required info')
   ).required()
 })
 
