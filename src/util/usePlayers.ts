@@ -1,5 +1,6 @@
-import React, { createContext, createElement, useCallback, useContext, useMemo, useState } from "react";
-import { Player } from "../screen/Landing";
+import React, { createContext, createElement, useCallback, useContext, useMemo, useState } from 'react'
+
+import { Player } from '../screen/Landing'
 
 interface Result {
   clearPlayers: () => void
@@ -9,7 +10,7 @@ interface Result {
 
 export const PlayerContext = createContext<Result>(null as never)
 
-export const PlayerProvider: React.FC = ({ children }) => {
+export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [players, setPlayers] = useState<Player[]>([])
 
   const clearPlayers = useCallback(async () => {
