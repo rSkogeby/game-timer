@@ -25,7 +25,7 @@ export default function Controller<T extends FieldValues> (props: ControllerProp
   const errorMessage = props.form.formState.errors?.[props.name]?.message as string | undefined
 
   return (
-    <VStack alignSelf='stretch'>
+    <VStack alignSelf='stretch' grow={1}>
       <WithSeparator separator={<Spacer height={4} />}>
         <Upstream
           control={props.form.control as Control<Record<string, any>> | undefined}

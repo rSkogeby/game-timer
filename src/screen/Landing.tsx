@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Spacer from 'react-spacer'
 import { HStack, VStack } from 'react-stacked'
@@ -64,30 +64,31 @@ const Landing: React.FC = () => {
   return (
     <VStack alignItems='center' backgroundColor={theme.background.main} grow={1}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flexGrow: 1, flexBasis: 0, width: '100%' }}>
-        <View style={styles.container}>
-          <Spacer height={0} grow={1} />
-
+        <VStack alignItems='center' grow={1}>
+          <Spacer grow={1} height={0} />
           <WithSeparator separator={<Spacer height={16} />} trailing>
             {fieldArray.fields.map((field, index) => {
               return (
-                <HStack alignItems='center' key={field.id} maxWidth={400}>
-                  <VStack grow={1}>
-                    <FormTextInput
-                      form={form}
-                      name={`players.${index}.name`}
-                      title='Name'
-                      type='default'
-                    />
-                  </VStack>
+                <HStack key={field.id} maxWidth={480} paddingHorizontal={16}>
+                  <FormTextInput
+                    form={form}
+                    name={`players.${index}.name`}
+                    title='Name'
+                    type='default'
+                  />
 
-                  <VStack>
+                  <Spacer width={16} />
+
+                  <HStack>
                     <FormTextInput
                       form={form}
                       name={`players.${index}.time`}
                       title='Time (s)'
                       type='digits'
                     />
-                  </VStack>
+                  </HStack>
+
+                  <Spacer width={16} />
 
                   <RectangleButton
                     accentColor='#000000'
@@ -108,7 +109,7 @@ const Landing: React.FC = () => {
           />
 
           <Spacer height={16} grow={1} />
-        </View>
+        </VStack>
       </ScrollView>
 
       <Spacer height={keyboardBottomInsets} />
@@ -124,14 +125,5 @@ const Landing: React.FC = () => {
     </VStack>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 
 export default Landing
