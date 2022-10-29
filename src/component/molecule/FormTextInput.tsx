@@ -1,4 +1,3 @@
-import React from 'react'
 import Spacer from 'react-spacer'
 import { VStack } from 'react-stacked'
 

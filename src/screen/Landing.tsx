@@ -1,4 +1,3 @@
-import React from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
