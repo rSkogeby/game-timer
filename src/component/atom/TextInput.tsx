@@ -4,6 +4,7 @@ import tinycolor from 'tinycolor2'
 import unreachable from 'ts-unreachable'
 
 import useScaledSizes from '../../util/useScaledSizes'
+import useTheme from '../../util/useTheme'
 
 export type TextInputType =
   | 'amount'
@@ -64,9 +65,11 @@ interface TextInputProps {
 const TextInput: React.FC<TextInputProps> = (props) => {
   const { labelPadding, labelSize } = useScaledSizes()
   const placeholderTextColor = tinycolor(props.textColor ?? '#000000').setAlpha(0.5).toHex8String()
+  const { theme } = useTheme()
 
   const style: UpstreamProps['style'] = useMemo(() => {
     return {
+      backgroundColor: theme.background.light,
       borderRadius: 8,
       borderWidth: StyleSheet.hairlineWidth,
       color: props.textColor,
