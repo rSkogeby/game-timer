@@ -32,7 +32,8 @@
     "react-with-separator": "^1.2.1",
     "tinycolor2": "^1.4.2",
     "ts-unreachable": "^1.0.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "expo-splash-screen": "~0.16.2"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
