@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react"
 import * as Speech from 'expo-speech'
+import { useEffect, useMemo, useState } from 'react'
 
 interface Return {
   cancelCountdown: () => void
@@ -17,7 +17,7 @@ export default function useCountdown (): Return {
     setCountdownRef(undefined)
   }
 
-  const startCountdown = (initialValue: number) => {
+  const startCountdown = (initialValue: number): void => {
     setCountdown(initialValue)
     if (initialValue < 3100) {
       Speech.speak(Math.round(initialValue / 1000).toString(), {
