@@ -1,4 +1,5 @@
-import { Control, FieldValues, Controller as Upstream, UseFormReturn } from 'react-hook-form'
+import dotProp from 'dot-prop'
+import { Control, FieldError, FieldValues, Controller as Upstream, UseFormReturn } from 'react-hook-form'
 import Spacer from 'react-spacer'
 import { VStack } from 'react-stacked'
 import WithSeparator from 'react-with-separator'
@@ -22,7 +23,7 @@ interface ControllerProps<TFieldValues extends FieldValues> {
 }
 
 export default function Controller<T extends FieldValues> (props: ControllerProps<T>): JSX.Element {
-  const errorMessage = props.form.formState.errors?.[props.name]?.message as string | undefined
+  const errorMessage = (dotProp.get(props.form.formState.errors, props.name) as FieldError)?.message
 
   return (
     <VStack alignSelf='stretch' grow={1}>
