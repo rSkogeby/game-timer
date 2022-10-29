@@ -91,7 +91,7 @@ const Landing: React.FC = () => {
                   <Spacer width={16} />
 
                   <RectangleButton
-                    accentColor='#000000'
+                    accentColor={theme.primary.main}
                     onPress={() => fieldArray.remove(index)}
                     title='delete'
                     type='text'
@@ -102,10 +102,11 @@ const Landing: React.FC = () => {
           </WithSeparator>
 
           <RectangleButton
-            accentColor={theme.primary.light}
+            accentColor={theme.primary.main}
+            iconName='label-add'
             onPress={handleAddPlayer}
             title='Add new player'
-            type='filled'
+            type='text'
           />
 
           <Spacer height={16} grow={1} />
