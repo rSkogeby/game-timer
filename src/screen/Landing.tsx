@@ -56,9 +56,11 @@ const Landing: React.FC = () => {
     fieldArray.append({ name: '', time: defaultTime })
   }
 
-  const handleStartTimer = (input: SchemaInput): void => {
-    updatePlayers(input.players)
-    navigation.navigate('Timer', {})
+  const handleStartTimer = (): void => {
+    form.handleSubmit((input: SchemaInput): void => {
+      updatePlayers(input.players)
+      navigation.navigate('Timer', {})
+    })().catch(() => {})
   }
 
   return (
@@ -126,7 +128,7 @@ const Landing: React.FC = () => {
 
       <RectangleButton
         accentColor={theme.primary.main}
-        onPress={form.handleSubmit(handleStartTimer)}
+        onPress={handleStartTimer}
         title='Start timer'
         type='filled'
       />
