@@ -99,7 +99,7 @@ const Landing: React.FC = () => {
                   <RectangleButton
                     accentColor={theme.primary.main}
                     onPress={handleRemovePlayer}
-                    title='delete'
+                    title='remove'
                     type='text'
                   />
                 </HStack>
