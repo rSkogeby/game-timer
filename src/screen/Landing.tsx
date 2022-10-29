@@ -105,6 +105,7 @@ const Landing: React.FC = () => {
             accentColor={theme.primary.main}
             iconName='label-add'
             onPress={handleAddPlayer}
+            padding={24}
             title='Add new player'
             type='text'
           />
