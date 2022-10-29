@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { TextInput as Upstream, TextInputProps as UpstreamProps } from 'react-native'
+import { StyleSheet, TextInput as Upstream, TextInputProps as UpstreamProps } from 'react-native'
 import tinycolor from 'tinycolor2'
 import unreachable from 'ts-unreachable'
 
@@ -67,11 +67,13 @@ const TextInput: React.FC<TextInputProps> = (props) => {
 
   const style: UpstreamProps['style'] = useMemo(() => {
     return {
+      borderRadius: 8,
+      borderWidth: StyleSheet.hairlineWidth,
       color: props.textColor,
       flexGrow: 1,
       fontSize: labelSize,
       minHeight: props.minHeight,
-      paddingVertical: labelPadding
+      padding: labelPadding
     }
   }, [labelPadding, labelSize, props.minHeight, props.textColor])
 
