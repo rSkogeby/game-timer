@@ -47,6 +47,8 @@ function getTextInputTypeSettings (type: TextInputType): TextInputTypeSettings {
 
 interface TextInputProps {
   autoFocus?: boolean
+  backgroundColor?: string
+  borderColor?: string
   minHeight?: number
   multiline?: boolean
   numberOfLines?: number
@@ -69,7 +71,8 @@ const TextInput: React.FC<TextInputProps> = (props) => {
 
   const style: UpstreamProps['style'] = useMemo(() => {
     return {
-      backgroundColor: theme.background.light,
+      backgroundColor: props.backgroundColor ?? theme.background.light,
+      borderColor: props.borderColor,
       borderRadius: 8,
       borderWidth: StyleSheet.hairlineWidth,
       color: props.textColor,
@@ -78,7 +81,7 @@ const TextInput: React.FC<TextInputProps> = (props) => {
       minHeight: props.minHeight,
       padding: labelPadding
     }
-  }, [labelPadding, labelSize, props.minHeight, props.textColor])
+  }, [labelPadding, labelSize, props.minHeight, props.backgroundColor, props.textColor, theme.background.light])
 
   const typeSettings = useMemo(() => {
     return getTextInputTypeSettings(props.type ?? 'default')
