@@ -55,10 +55,10 @@ const Timer: React.FC = () => {
       <Spacer height={0} grow={2} />
 
       <RectangleButton
-        accentColor={countdownState === 'counting' ? theme.secondary.light : theme.primary.main}
+        accentColor={theme.primary.main}
         onPress={countdownState === 'counting' ? cancelCountdown : () => startCountdown(countdown)}
         title={countdownState === 'counting' ? 'Pause' : 'Resume'}
-        type='filled'
+        type={countdownState === 'counting' ? 'outlined' : 'filled'}
       />
 
       <Spacer height={insets.bottom} />
