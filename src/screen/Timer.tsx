@@ -1,13 +1,14 @@
+import * as Speech from 'expo-speech'
 import React, { useEffect, useState } from 'react'
+import { TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Spacer from 'react-spacer'
-import { VStack, Text } from 'react-stacked'
+import { Text, VStack } from 'react-stacked'
+
+import Button from '../component/atom/Button'
 import useCountdown from '../util/useCountdown'
 import usePlayers from '../util/usePlayers'
 import useTheme from '../util/useTheme'
-import * as Speech from 'expo-speech'
-import { TouchableOpacity } from 'react-native'
-import Button from '../component/atom/Button'
 
 const Timer: React.FC = () => {
   const { theme } = useTheme()
@@ -54,7 +55,7 @@ const Timer: React.FC = () => {
       <Spacer height={0} grow={2} />
 
       <Button
-        backgroundColor={countdownState === 'counting' ?  theme.secondary.light : theme.primary.main}
+        backgroundColor={countdownState === 'counting' ? theme.secondary.light : theme.primary.main}
         onPress={countdownState === 'counting' ? cancelCountdown : () => startCountdown(countdown)}
         textColor={countdownState === 'counting' ? theme.secondary.text.primary : theme.primary.text.primary}
         title={countdownState === 'counting' ? 'Pause' : 'Resume'}
