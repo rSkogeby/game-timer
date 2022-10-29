@@ -1,8 +1,8 @@
 import React from 'react'
+import Spacer from 'react-spacer'
 import { VStack } from 'react-stacked'
 
 import Controller, { FieldValues, UseFormReturn } from '../atom/Controller'
-import Divider from '../atom/Divider'
 import Label from '../atom/Label'
 import TextInput, { TextInputType } from '../atom/TextInput'
 
@@ -34,7 +34,15 @@ export default function FormTextInput<T extends FieldValues> (props: FormTextInp
 
         return (
           <VStack>
-            {props.title == null ? null : <Label color={textColor}>{props.title}</Label>}
+            {props.title == null
+              ? null
+              : (
+                <>
+                  <Label color={textColor}>{props.title}</Label>
+
+                  <Spacer height={8} />
+                </>
+                )}
 
             <TextInput
               autoFocus={props.autoFocus}
@@ -46,8 +54,6 @@ export default function FormTextInput<T extends FieldValues> (props: FormTextInp
               value={value}
               type={props.type}
             />
-
-            <Divider color={textColor} />
           </VStack>
         )
       }}
