@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Spacer from 'react-spacer'
 import { Text, VStack } from 'react-stacked'
 
+import CheckBox from '../component/atom/CheckBox'
 import RectangleButton from '../component/molecule/RectangleButton'
 import useCountdown from '../util/useCountdown'
 import usePlayers from '../util/usePlayers'
@@ -15,12 +16,16 @@ const Timer: React.FC = () => {
   const { players } = usePlayers()
   const insets = useSafeAreaInsets()
   const { cancelCountdown, countdown, countdownState, startCountdown } = useCountdown()
-  const backgroundColor = theme.background.main
   const [currentPlayer, setCurrentPlayer] = useState<number | null>(null)
+  const [readOutNames, setReadOutNames] = useState(true)
+
+  const handleReadOutNameToggle = (): void => {
+    setReadOutNames(readOutNames => !readOutNames)
+  }
 
   useEffect(() => {
     if (currentPlayer === null) {
-      Speech.speak(players[0].name)
+      if (readOutNames) Speech.speak(players[0].name)
       setCurrentPlayer(0)
       startCountdown(Number(players[0].time) * 1000)
       return
@@ -37,11 +42,11 @@ const Timer: React.FC = () => {
     setCurrentPlayer(nextCurrentPlayer)
     startCountdown(Number(players[nextCurrentPlayer].time) * 1000)
 
-    Speech.speak(players[nextCurrentPlayer].name)
-  }, [countdown, currentPlayer, players, Speech])
+    if (readOutNames) Speech.speak(players[nextCurrentPlayer].name)
+  }, [countdown, currentPlayer, players, readOutNames, Speech])
 
   return (
-    <VStack alignItems='center' backgroundColor={backgroundColor} grow={1}>
+    <VStack alignItems='center' backgroundColor={theme.background.main} grow={1}>
       <Spacer height={16} grow={1} />
 
       <VStack alignItems='center' justifyContent='center'>
@@ -52,13 +57,22 @@ const Timer: React.FC = () => {
         <Text size={88}>{Math.round(countdown / 1000)}</Text>
       </VStack>
 
+      <Spacer height={16} />
+
+      <CheckBox
+        backgroundColor={theme.background.main}
+        checked={readOutNames}
+        onPress={handleReadOutNameToggle}
+        title='Read out names on countdown start'
+      />
+
       <Spacer height={0} grow={2} />
 
       <RectangleButton
-        accentColor={countdownState === 'counting' ? theme.secondary.light : theme.primary.main}
+        accentColor={theme.primary.main}
         onPress={countdownState === 'counting' ? cancelCountdown : () => startCountdown(countdown)}
         title={countdownState === 'counting' ? 'Pause' : 'Resume'}
-        type='filled'
+        type={countdownState === 'counting' ? 'outlined' : 'filled'}
       />
 
       <Spacer height={insets.bottom} />

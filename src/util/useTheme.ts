@@ -42,10 +42,10 @@ interface UseThemeReturn {
 }
 
 const THEME = {
-  background: getColors('#FFFFFF'),
+  background: getColors('#eeeeee'),
   error: getColors('#DB5461'),
-  primary: getColors('#343476'),
-  secondary: getColors('#8EF9F3')
+  primary: getColors('#bf1922'),
+  secondary: getColors('#e32832')
 }
 
 export default function useTheme (): UseThemeReturn {

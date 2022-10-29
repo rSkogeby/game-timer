@@ -68,6 +68,12 @@ const Landing: React.FC = () => {
           <Spacer grow={1} height={0} />
           <WithSeparator separator={<Spacer height={16} />} trailing>
             {fieldArray.fields.map((field, index) => {
+              const handleRemovePlayer = (): void => {
+                if (fieldArray.fields.length === 1) return
+
+                fieldArray.remove(index)
+              }
+
               return (
                 <HStack key={field.id} maxWidth={480} paddingHorizontal={16}>
                   <FormTextInput
@@ -92,7 +98,7 @@ const Landing: React.FC = () => {
 
                   <RectangleButton
                     accentColor={theme.primary.main}
-                    onPress={() => fieldArray.remove(index)}
+                    onPress={handleRemovePlayer}
                     title='delete'
                     type='text'
                   />
@@ -105,6 +111,7 @@ const Landing: React.FC = () => {
             accentColor={theme.primary.main}
             iconName='label-add'
             onPress={handleAddPlayer}
+            padding={24}
             title='Add new player'
             type='text'
           />
