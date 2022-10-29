@@ -19,7 +19,7 @@ export default function useCountdown (): Return {
 
   const startCountdown = (initialValue: number): void => {
     setCountdown(initialValue)
-    if (initialValue < 3100) {
+    if (initialValue >= 100 && initialValue < 3100) {
       Speech.speak(Math.round(initialValue / 1000).toString(), {
         language: 'en-US',
         rate: 1
