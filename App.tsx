@@ -27,16 +27,19 @@ const App: React.FC = () => {
     headerTintColor: theme.primary.main
   }), [theme.primary.main])
 
+  const logoScale = useRef(new Animated.Value(0)).current
   const iconMovement = useRef(new Animated.Value(-135)).current
   const textMovement = useRef(new Animated.Value(55)).current
 
-  const iconSide = 120
-
   const handleToggle = (): void => {
-    Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start()
-    Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: -100, useNativeDriver: true }).start(({ finished }) => {
+    Animated.timing(logoScale, { duration: 500, easing: Easing.inOut(Easing.exp), toValue: 1, useNativeDriver: true }).start(({ finished }) => {
       if (finished) {
-        setAppIsReady(true)
+        Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start()
+        Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: -100, useNativeDriver: true }).start(({ finished }) => {
+          if (finished) {
+            setAppIsReady(true)
+          }
+        })
       }
     })
   }
@@ -69,9 +72,9 @@ const App: React.FC = () => {
               backgroundColor,
               position: 'absolute',
               resizeMode: 'contain',
-              transform: [{ translateX: iconMovement }],
+              transform: [{ scale: logoScale }, { translateX: iconMovement }],
               zIndex: 2,
-              width: iconSide
+              width: 120
             }}
           />
 
@@ -80,7 +83,7 @@ const App: React.FC = () => {
             style={{
               position: 'absolute',
               resizeMode: 'contain',
-              transform: [{ translateX: textMovement }],
+              transform: [{ scale: logoScale }, { translateX: textMovement }],
               zIndex: 1,
               width: 300
             }}
