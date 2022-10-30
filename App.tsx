@@ -1,6 +1,6 @@
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Easing, Image } from 'react-native'
 import Spacer from 'react-spacer'
 
@@ -31,7 +31,7 @@ const App: React.FC = () => {
   const iconMovement = useRef(new Animated.Value(-135)).current
   const textMovement = useRef(new Animated.Value(55)).current
 
-  const handleToggle = (): void => {
+  useEffect(() => {
     Animated.timing(logoScale, { duration: 500, easing: Easing.inOut(Easing.exp), toValue: 1, useNativeDriver: true }).start(({ finished }) => {
       if (finished) {
         Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start()
@@ -42,7 +42,7 @@ const App: React.FC = () => {
         })
       }
     })
-  }
+  }, [])
 
   if (!appIsReady) {
     return (
@@ -89,19 +89,6 @@ const App: React.FC = () => {
             }}
           />
         </Animated.View>
-
-        <Spacer height={12} />
-
-        <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <RectangleButton
-            accentColor='orange'
-            onPress={handleToggle}
-            title='Toggle'
-            type='filled'
-          />
-        </Animated.View>
-
-        <Spacer height={36} />
       </Animated.View>
     )
   }
