@@ -14,12 +14,13 @@ import useTheme from './src/util/useTheme'
 
 const RootStack = createStackNavigator()
 
-// SplashScreen.preventAutoHideAsync().catch(console.warn)
+const DEBUG = true
 
 const App: React.FC = () => {
   const navigation = useRef<NavigationContainerRef<ParamList>>(null)
   const { theme } = useTheme()
   const [appIsReady, setAppIsReady] = useState(false)
+  const [toggle, setToggle] = useState(false)
   const backgroundColor = theme.background.main
 
   const screenOptions: StackNavigationOptions = useMemo(() => ({
@@ -31,11 +32,20 @@ const App: React.FC = () => {
   const iconMovement = useRef(new Animated.Value(-135)).current
   const textMovement = useRef(new Animated.Value(55)).current
 
+  const handleToggle = (): void => {
+    setToggle(state => !state)
+
+    Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: toggle ? 0 : -135, useNativeDriver: true }).start()
+    Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: toggle ? -100 : 55, useNativeDriver: true }).start()
+  }
+
   useEffect(() => {
     Animated.timing(logoScale, { duration: 500, easing: Easing.inOut(Easing.exp), toValue: 1, useNativeDriver: true }).start(({ finished }) => {
       if (finished) {
         Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start()
         Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: -100, useNativeDriver: true }).start(({ finished }) => {
+          if (DEBUG) return
+
           if (finished) {
             setAppIsReady(true)
           }
@@ -89,6 +99,24 @@ const App: React.FC = () => {
             }}
           />
         </Animated.View>
+        {!DEBUG
+          ? null
+          : (
+            <>
+              <Spacer height={12} />
+
+              <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <RectangleButton
+                  accentColor='orange'
+                  onPress={handleToggle}
+                  title='Toggle'
+                  type='filled'
+                />
+              </Animated.View>
+
+              <Spacer height={36} />
+            </>
+            )}
       </Animated.View>
     )
   }
