@@ -20,7 +20,7 @@ const Timer: React.FC = () => {
   const { cancelCountdown, countdown, countdownState, startCountdown } = useCountdown()
   const [currentPlayer, setCurrentPlayer] = useState<number | null>(null)
   const [readName, setReadName] = useState(true)
-  const [buzzerEnabled, setBuzzersEnabled] = useState(false)
+  const [buzzerEnabled, setBuzzerEnabled] = useState(false)
   const [readCountdown, setReadCountdown] = useState(true)
 
   const handleReadOutNameToggle = (): void => {
@@ -28,7 +28,7 @@ const Timer: React.FC = () => {
   }
 
   const handleBuzzerToggle = (): void => {
-    setBuzzersEnabled(buzzerEnabled => !buzzerEnabled)
+    setBuzzerEnabled(buzzerEnabled => !buzzerEnabled)
   }
 
   const handleReadCountdownToggle = (): void => {
@@ -105,7 +105,7 @@ const Timer: React.FC = () => {
         backgroundColor={theme.background.main}
         checked={readCountdown}
         onPress={handleReadCountdownToggle}
-        title='Read out countdown'
+        title='Read out countdown from 3'
       />
 
       <Spacer height={0} grow={2} />
