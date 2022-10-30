@@ -12,6 +12,10 @@ import useTheme from './src/util/useTheme'
 
 const RootStack = createStackNavigator()
 
+function Animate (value: Animated.Value, options: { duration: number, toValue: number }): Animated.CompositeAnimation {
+  return Animated.timing(value, { easing: Easing.inOut(Easing.exp), useNativeDriver: true, ...options })
+}
+
 const App: React.FC = () => {
   const navigation = useRef<NavigationContainerRef<ParamList>>(null)
   const { theme } = useTheme()
@@ -29,12 +33,12 @@ const App: React.FC = () => {
   const textMovement = useRef(new Animated.Value(55)).current
 
   useEffect(() => {
-    Animated.timing(logoScale, { duration: 500, easing: Easing.inOut(Easing.exp), toValue: 1, useNativeDriver: true }).start(({ finished }) => {
+    Animate(logoScale, { duration: 500, toValue: 1 }).start(({ finished }) => {
       if (finished) {
-        Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start()
-        Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: -100, useNativeDriver: true }).start(({ finished }) => {
+        Animate(iconMovement, { duration: 2000, toValue: 0 }).start()
+        Animate(textMovement, { duration: 2000, toValue: -100 }).start(({ finished }) => {
           if (finished) {
-            Animated.timing(opacityFade, { duration: 1000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start(({ finished }) => {
+            Animate(opacityFade, { duration: 1000, toValue: 0 }).start(({ finished }) => {
               if (finished) {
                 setAppIsReady(true)
               }
