@@ -59,7 +59,7 @@ const App: React.FC = () => {
               position: 'absolute',
               transform: [{ translateX: iconMovement }],
               width: '50%',
-              zIndex: 3
+              zIndex: 2
             }}
           />
 
@@ -70,7 +70,7 @@ const App: React.FC = () => {
               position: 'absolute',
               resizeMode: 'contain',
               transform: [{ translateX: iconMovement }],
-              zIndex: 3,
+              zIndex: 2,
               width: iconSide
             }}
           />
