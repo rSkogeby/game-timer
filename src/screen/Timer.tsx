@@ -19,26 +19,41 @@ const Timer: React.FC = () => {
   const playBuzzer = useBuzzer()
   const { cancelCountdown, countdown, countdownState, startCountdown } = useCountdown()
   const [currentPlayer, setCurrentPlayer] = useState<number | null>(null)
-  const [readOutNames, setReadOutNames] = useState(true)
-  const [buzzerEnabled, setBuzzersEnabled] = useState(false)
+  const [readName, setReadName] = useState(true)
+  const [buzzerEnabled, setBuzzerEnabled] = useState(false)
+  const [readCountdown, setReadCountdown] = useState(true)
 
   const handleReadOutNameToggle = (): void => {
-    setReadOutNames(readOutNames => !readOutNames)
+    setReadName(readName => !readName)
   }
 
   const handleBuzzerToggle = (): void => {
-    setBuzzersEnabled(buzzerEnabled => !buzzerEnabled)
+    setBuzzerEnabled(buzzerEnabled => !buzzerEnabled)
+  }
+
+  const handleReadCountdownToggle = (): void => {
+    setReadCountdown(readCountdown => !readCountdown)
   }
 
   useEffect(() => {
     if (currentPlayer === null) {
-      if (readOutNames) Speech.speak(players[0].name)
+      if (readName) Speech.speak(players[0].name)
       setCurrentPlayer(0)
       startCountdown(Number(players[0].time) * 1000)
       return
     }
 
     if (currentPlayer > players.length) return
+
+    if (readCountdown && countdown >= 100 && countdown < 3100) {
+      Speech.speak(Math.round(countdown / 1000).toString(), {
+        language: 'en-US',
+        rate: 1
+      })
+
+      return
+    }
+
     if (countdown !== 0) return
 
     let nextCurrentPlayer = currentPlayer + 1
@@ -49,14 +64,14 @@ const Timer: React.FC = () => {
     setCurrentPlayer(nextCurrentPlayer)
     startCountdown(Number(players[nextCurrentPlayer].time) * 1000)
 
-    if (buzzerEnabled && readOutNames) {
+    if (buzzerEnabled && readName) {
       playBuzzer(() => Speech.speak(players[nextCurrentPlayer].name))
     } else if (buzzerEnabled) {
       playBuzzer()
-    } else if (readOutNames) {
+    } else if (readName) {
       Speech.speak(players[nextCurrentPlayer].name)
     }
-  }, [countdown, currentPlayer, players, readOutNames, Speech])
+  }, [countdown, currentPlayer, players, readName, Speech])
 
   return (
     <VStack alignItems='center' backgroundColor={theme.background.main} grow={1}>
@@ -74,7 +89,7 @@ const Timer: React.FC = () => {
 
       <CheckBox
         backgroundColor={theme.background.main}
-        checked={readOutNames}
+        checked={readName}
         onPress={handleReadOutNameToggle}
         title='Read out names on countdown start'
       />
@@ -84,6 +99,13 @@ const Timer: React.FC = () => {
         checked={buzzerEnabled}
         onPress={handleBuzzerToggle}
         title='Signal end of countdown with buzzer'
+      />
+
+      <CheckBox
+        backgroundColor={theme.background.main}
+        checked={readCountdown}
+        onPress={handleReadCountdownToggle}
+        title='Read out countdown from 3'
       />
 
       <Spacer height={0} grow={2} />
