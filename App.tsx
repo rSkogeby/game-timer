@@ -35,7 +35,11 @@ const App: React.FC = () => {
     setToggle(toggle => !toggle)
 
     Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: toggle ? 0 : -140, useNativeDriver: true }).start()
-    Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: toggle ? 0 : 150, useNativeDriver: true }).start()
+    Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: toggle ? 0 : 150, useNativeDriver: true }).start(({ finished }) => {
+      if (finished) {
+        setAppIsReady(true)
+      }
+    })
   }
 
   const iconSide = 120
