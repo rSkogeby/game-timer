@@ -1,8 +1,10 @@
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
-import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Easing, Image } from 'react-native'
+import { NavigationContainerRef } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import React, { useEffect, useRef, useState } from 'react'
+import { Animated, Easing } from 'react-native'
 
+import NavigationContainer from './src/component/molecule/NavigationContainer'
+import NavigationRootStack from './src/component/molecule/NavigationRootStack'
 import { ParamList, linkingOptions } from './src/lib/navigation'
 import Landing from './src/screen/Landing'
 import Timer from './src/screen/Timer'
@@ -21,11 +23,6 @@ const App: React.FC = () => {
   const { theme } = useTheme()
   const [appIsReady, setAppIsReady] = useState(false)
   const backgroundColor = theme.background.main
-
-  const screenOptions: StackNavigationOptions = useMemo(() => ({
-    headerTitle: () => <Image source={require('./assets/full_logo.png')} style={{ resizeMode: 'contain', width: 120 }} />,
-    headerTintColor: theme.primary.main
-  }), [theme.primary.main])
 
   const iconMovement = useRef(new Animated.Value(-135)).current
   const logoScale = useRef(new Animated.Value(0)).current
@@ -52,7 +49,7 @@ const App: React.FC = () => {
   return (
     <ScaledSizesProvider>
       <PlayerProvider>
-        <NavigationContainer linking={linkingOptions} ref={navigation}>
+        <NavigationContainer linkingOptions={linkingOptions} ref={navigation}>
           {appIsReady
             ? null
             : (
@@ -101,10 +98,10 @@ const App: React.FC = () => {
               </Animated.View>
               )}
 
-          <RootStack.Navigator initialRouteName='Landing' screenOptions={screenOptions}>
+          <NavigationRootStack initialRouteName='Landing'>
             <RootStack.Screen name='Settings' component={Landing} />
             <RootStack.Screen name='Timer' component={Timer} />
-          </RootStack.Navigator>
+          </NavigationRootStack>
         </NavigationContainer>
       </PlayerProvider>
     </ScaledSizesProvider>
