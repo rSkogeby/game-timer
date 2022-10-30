@@ -59,7 +59,7 @@ const Landing: React.FC = () => {
     form.handleSubmit((input: SchemaInput): void => {
       updatePlayers(input.players)
       navigation.navigate('Timer', {})
-    })().catch(() => {})
+    })().catch(console.warn)
   }
 
   return (
