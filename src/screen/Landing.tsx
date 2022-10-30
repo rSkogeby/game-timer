@@ -123,8 +123,6 @@ const Landing: React.FC = () => {
         </VStack>
       </ScrollView>
 
-      <Spacer height={keyboardBottomInsets} />
-
       <RectangleButton
         accentColor={theme.primary.main}
         onPress={handleStartTimer}
@@ -132,7 +130,7 @@ const Landing: React.FC = () => {
         type='filled'
       />
 
-      <Spacer height={insets.bottom} />
+      <Spacer height={16 + Math.max(insets.bottom, keyboardBottomInsets)} />
     </VStack>
   )
 }
