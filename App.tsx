@@ -77,9 +77,8 @@ const App: React.FC = () => {
           />
 
           <Animated.Image
-            source={require('./assets/icon.png')}
+            source={require('./assets/icon_gradient.png')}
             style={{
-              backgroundColor,
               position: 'absolute',
               resizeMode: 'contain',
               transform: [{ scale: logoScale }, { translateX: iconMovement }],
