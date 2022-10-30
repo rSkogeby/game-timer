@@ -14,7 +14,7 @@ import useTheme from './src/util/useTheme'
 
 const RootStack = createStackNavigator()
 
-const DEBUG = true
+const DEBUG = false
 
 const App: React.FC = () => {
   const navigation = useRef<NavigationContainerRef<ParamList>>(null)
@@ -98,6 +98,7 @@ const App: React.FC = () => {
             }}
           />
         </Animated.View>
+
         {!DEBUG
           ? null
           : (
