@@ -2,9 +2,7 @@ import { NavigationContainer, NavigationContainerRef } from '@react-navigation/n
 import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Easing, Image } from 'react-native'
-import Spacer from 'react-spacer'
 
-import RectangleButton from './src/component/molecule/RectangleButton'
 import { ParamList, linkingOptions } from './src/lib/navigation'
 import Landing from './src/screen/Landing'
 import Timer from './src/screen/Timer'
@@ -14,13 +12,10 @@ import useTheme from './src/util/useTheme'
 
 const RootStack = createStackNavigator()
 
-const DEBUG = false
-
 const App: React.FC = () => {
   const navigation = useRef<NavigationContainerRef<ParamList>>(null)
   const { theme } = useTheme()
   const [appIsReady, setAppIsReady] = useState(false)
-  const [toggle, setToggle] = useState(false)
   const backgroundColor = theme.background.main
 
   const screenOptions: StackNavigationOptions = useMemo(() => ({
@@ -28,28 +23,21 @@ const App: React.FC = () => {
     headerTintColor: theme.primary.main
   }), [theme.primary.main])
 
-  const logoScale = useRef(new Animated.Value(0)).current
   const iconMovement = useRef(new Animated.Value(-135)).current
-  const textMovement = useRef(new Animated.Value(55)).current
+  const logoScale = useRef(new Animated.Value(0)).current
   const opacityFade = useRef(new Animated.Value(1)).current
-
-  const handleToggle = (): void => {
-    setToggle(state => !state)
-
-    Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: toggle ? 0 : -135, useNativeDriver: true }).start()
-    Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: toggle ? -100 : 55, useNativeDriver: true }).start()
-  }
+  const textMovement = useRef(new Animated.Value(55)).current
 
   useEffect(() => {
     Animated.timing(logoScale, { duration: 500, easing: Easing.inOut(Easing.exp), toValue: 1, useNativeDriver: true }).start(({ finished }) => {
       if (finished) {
         Animated.timing(iconMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start()
         Animated.timing(textMovement, { duration: 2000, easing: Easing.inOut(Easing.exp), toValue: -100, useNativeDriver: true }).start(({ finished }) => {
-          if (DEBUG) return
-
           if (finished) {
             Animated.timing(opacityFade, { duration: 1000, easing: Easing.inOut(Easing.exp), toValue: 0, useNativeDriver: true }).start(({ finished }) => {
-              if (finished) setAppIsReady(true)
+              if (finished) {
+                setAppIsReady(true)
+              }
             })
           }
         })
@@ -106,25 +94,6 @@ const App: React.FC = () => {
                     }}
                   />
                 </Animated.View>
-
-                {!DEBUG
-                  ? null
-                  : (
-                    <>
-                      <Spacer height={12} />
-
-                      <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <RectangleButton
-                          accentColor='orange'
-                          onPress={handleToggle}
-                          title='Toggle'
-                          type='filled'
-                        />
-                      </Animated.View>
-
-                      <Spacer height={36} />
-                    </>
-                    )}
               </Animated.View>
               )}
 
