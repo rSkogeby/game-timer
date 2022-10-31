@@ -1,0 +1,111 @@
+#!/usr/bin/env node
+
+const execa = require('execa')
+const fs = require('fs').promises
+const neodoc = require('neodoc')
+
+const task = require('./lib/task')
+
+// This needs to be incremented every time we change native dependencies
+const RELEASE_CHANNEL = 'eas1'
+
+const usage = `
+Configure
+
+usage:
+  configure [options]
+
+options:
+  --help                       Show this help, then exit.
+  --verbose                    Print verbose output.
+`
+
+async function configure ({ verbose = false }) {
+  const marketingVersion = await task('Determining marketing version', verbose, async () => {
+    return JSON.parse(await fs.readFile('package.json', { encoding: 'utf8' })).version
+  })
+
+  const internalVersion = await task('Determining internal version', verbose, async () => {
+    return (await execa('git', ['describe', '--always', '--dirty'])).stdout
+  })
+
+  if (verbose) console.error({ marketingVersion, internalVersion })
+
+  await task('Writing app.json', verbose, async () => {
+    const expo = {
+      assetBundlePatterns: ['assets/**/*'],
+      icon: './assets/icon.png',
+      name: 'Game Timer - the app',
+      orientation: 'portrait',
+      owner: 'rskogeby',
+      platforms: ['ios'],
+      privacy: 'unlisted',
+      slug: 'game-timer',
+      splash: {
+        resizeMode: 'contain',
+        backgroundColor: '#eeeeee'
+      },
+      updates: { fallbackToCacheTimeout: 0 },
+      version: marketingVersion,
+
+      // Our app config
+      extra: {
+        eas: {
+          projectId: 'f088cef5-2f00-4d40-a91b-296552ba93e0'
+        },
+        internalVersion,
+        marketingVersion
+      },
+
+      // iOS specific
+      ios: {
+        bundleIdentifier: 'com.rskogeby.gametimer',
+        config: { usesNonExemptEncryption: false },
+        requireFullScreen: false,
+        supportsTablet: true
+      }
+    }
+
+    if (verbose) console.error(expo)
+    await fs.writeFile('app.json', JSON.stringify({ expo }, null, 2) + '\n')
+  })
+
+  await task('Writing eas.json', verbose, async () => {
+    const ascAppId = '6444107019'
+
+    const cache = { key: `game-timer-${RELEASE_CHANNEL}-1` } // Increment to invalidate cache for eas build
+    const easInfo = {
+      build: {
+        development: { cache, distribution: 'internal' },
+        production: { cache, releaseChannel: RELEASE_CHANNEL }
+      },
+      cli: {
+        requireCommit: false
+      },
+      submit: {
+        production: {
+          ios: { appleTeamId: '6244Y53J7M', ascAppId, language: 'en-US', sku: 'EX1667229730502' }
+        }
+      }
+    }
+
+    if (verbose) console.error(easInfo)
+    await fs.writeFile('eas.json', JSON.stringify(easInfo, null, 2) + '\n')
+  })
+}
+
+async function main () {
+  const args = neodoc.run(usage, { laxPlacement: true })
+
+  await configure({ verbose: args['--verbose'] })
+}
+
+module.exports = configure
+
+// @ts-ignore
+if (require.main === module) {
+  main().catch((error) => {
+    process.exitCode = 1
+    console.error(error.stack)
+  })
+}
