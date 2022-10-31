@@ -1,19 +1,11 @@
-node_modules/
-.expo/
+node_modules/**/*
+.expo/*
 .env
-dist/
-npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
 
 # macOS
 .DS_Store
 
-# Generated files
-app.json
-eas.json
+/app.json
+/assets/icon.png
+/assets/splash.png
+/eas.json
