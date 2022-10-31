@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+
+const execa = require('execa')
+const fs = require('fs').promises
+const neodoc = require('neodoc')
+
+const configure = require('./configure')
+const incrementBuildNumber = require('./lib/build-number')
+const readCredential = require('./lib/readCredential')
+const task = require('./lib/task')
+
+const EAS = 'eas-cli@2.5.1'
+
+const usage = `
+Deploy
+
+usage:
+  publish [options]
+
+options:
+  --help                       Show this help, then exit.
+  --interactive                Run interactively.
+  --no-wait                    Don't wait for the builds/submissions to complete.
+  --verbose                    Print verbose output.
+`
+
+/**
+ * @param options {object}
+ * @param options.interactive {boolean}
+ * @param options.noWait {boolean}
+ * @param options.platform {'all'|'ios'|'none'}
+ * @param options.verbose {boolean}
+ */
+async function publish ({ interactive = false, noWait = false, verbose = false }) {
+  const stdio = verbose ? ['ignore', 2, 2] : undefined
+
+  let expoAppleIdEnv
+  await task('Checking App Store credentials', interactive || verbose, async () => {
+    const { account, password } = await readCredential('Game Timer - the app')
+    expoAppleIdEnv = { EXPO_APPLE_ID: account, EXPO_APPLE_PASSWORD: password }
+  })
+
+  await task('Incrementing build number', interactive || verbose, async () => {
+    const appInfo = JSON.parse(await fs.readFile('app.json', { encoding: 'utf8' }))
+    console.warn('appInfo', appInfo)
+    const buildNumber = await incrementBuildNumber()
+    console.warn('buildNumber', buildNumber)
+    appInfo.expo.ios.buildNumber = String(buildNumber)
+    await fs.writeFile('app.json', JSON.stringify(appInfo, null, 2))
+    if (verbose) console.error(`New build number is: ${buildNumber}`)
+  })
+
+  await task('Building and submitting app', interactive || verbose, async () => {
+    const env = { ...process.env, ...expoAppleIdEnv, EAS_NO_VCS: '1' }
+    const waitFlag = (noWait ? '--no-wait' : '--wait')
+    const platform = 'ios'
+
+    if (interactive) {
+      await execa('npx', [EAS, 'build', '--auto-submit', '--platform', platform, waitFlag], { env, preferLocal: true, stdio: 'inherit' })
+    } else {
+      await execa('npx', [EAS, 'build', '--auto-submit', '--platform', platform, waitFlag], { env, preferLocal: true, stdio })
+    }
+  })
+}
+
+async function main () {
+  const args = neodoc.run(usage, { laxPlacement: true })
+
+  await configure({ verbose: args['--verbose'] })
+  await publish({ interactive: args['--interactive'], noWait: args['--no-wait'], verbose: args['--verbose'] })
+}
+
+main().catch((error) => {
+  process.exitCode = 1
+  console.error(error.stack)
+})

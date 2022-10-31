@@ -80,6 +80,7 @@ async function configure ({ verbose = false }) {
         production: { cache, releaseChannel: RELEASE_CHANNEL }
       },
       cli: {
+        promptToConfigurePushNotifications: false,
         requireCommit: false
       },
       submit: {
