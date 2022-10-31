@@ -1,3 +1,4 @@
+import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputSubmitEditingEventData } from 'react-native'
 import Spacer from 'react-spacer'
 import { VStack } from 'react-stacked'
 
@@ -13,6 +14,8 @@ interface FormTextInputProps<TFieldValues extends FieldValues> {
   name: (keyof TFieldValues & string) | string
   onBlur?: () => void
   onFocus?: () => void
+  onKeyPress?: ((e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void) | undefined
+  onSubmitEditing?: ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void) | undefined
   placeholder?: string
   title?: string
   type: TextInputType
@@ -55,6 +58,8 @@ export default function FormTextInput<T extends FieldValues> (props: FormTextInp
               onBlur={handleBlur}
               onChange={onChange}
               onFocus={props.onFocus}
+              onKeyPress={props.onKeyPress}
+              onSubmitEditing={props.onSubmitEditing}
               placeholder={props.placeholder}
               textColor={textColor}
               value={value}
