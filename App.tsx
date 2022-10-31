@@ -56,6 +56,7 @@ const App: React.FC = () => {
               <Animated.View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor, opacity: opacityFade, zIndex: 1 }}>
                 <Animated.View
                   style={{
+                    alignItems: 'center',
                     flexGrow: 1,
                     justifyContent: 'center',
                     flexDirection: 'row'
