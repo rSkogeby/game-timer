@@ -34,7 +34,7 @@ async function configure ({ verbose = false }) {
   await task('Writing app.json', verbose, async () => {
     const expo = {
       assetBundlePatterns: ['assets/**/*'],
-      icon: './assets/icon.png',
+      icon: './assets/app_button_icon.png',
       name: 'Game Timer - the app',
       orientation: 'portrait',
       owner: 'rskogeby',
