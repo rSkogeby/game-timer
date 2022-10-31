@@ -3,11 +3,8 @@
   "version": "1.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "configure": "./scripts/configure",
+    "start": "npx expo-cli@6.0.6 start --clear"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
@@ -42,6 +39,8 @@
     "@types/react-native": "~0.69.1",
     "@types/tinycolor2": "^1.4.3",
     "@types/yup": "^0.29.13",
+    "neodoc": "^2.0.2",
+    "ora": "^5.4.1",
     "ts-standard": "^12.0.1",
     "typescript": "^4.6.3"
   },
