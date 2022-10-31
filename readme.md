@@ -1,5 +1,9 @@
 # Game Timer
-Todo:
-✅ Cancel countdown on navigating away from Timer.tsx
-✅ Pause button to countdown on Timer.tsx
-💤 Alert if silent mode is on
+
+## Publish
+
+```zsh
+  npx eas-cli@latest build:configure
+  npx eas-cli@latest build --platform=ios
+  npx eas-cli@latest submit
+```
