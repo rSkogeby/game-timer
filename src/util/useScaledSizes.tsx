@@ -56,6 +56,8 @@ function getValues (width: number) {
     labelIconSize: calculateScaledSize(width, { iPhonePro: 21, iPhoneProMax: 21, iPadAir: 32, iPadPro: 34 }),
     labelPadding: calculateScaledSize(width, { iPhonePro: 6, iPhoneProMax: 6, iPadAir: 8, iPadPro: 8 }),
     labelSize: calculateScaledSize(width, { iPhonePro: 14, iPhoneProMax: 14, iPadAir: 22, iPadPro: 22 }),
+    navigationHeaderImagePadding: calculateScaledSize(width, { iPhonePro: 8, iPhoneProMax: 16, iPadAir: 22, iPadPro: 28 }),
+    navigationHeaderImageWidth: calculateScaledSize(width, { iPhonePro: 140, iPhoneProMax: 160, iPadAir: 184, iPadPro: 204 }),
     rectangleButtonHorizontalPadding: calculateScaledSize(width, { iPhonePro: 42, iPhoneProMax: 42, iPadAir: 64, iPadPro: 64 }),
     rectangleButtonMinHeight: calculateScaledSize(width, { iPhonePro: 42, iPhoneProMax: 42, iPadAir: 64, iPadPro: 64 })
   }

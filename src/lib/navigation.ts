@@ -1,6 +1,5 @@
 import type { LinkingOptions, ParamListBase } from '@react-navigation/native'
 import * as upstream from '@react-navigation/native'
-import { Player } from '../screen/Landing'
 
 type NavigationRoute = { [Key in keyof ParamList]: { name: Key, params: ParamList[Key] } }[keyof ParamList]
 
