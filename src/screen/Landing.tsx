@@ -1,5 +1,5 @@
 import { useFieldArray, useForm } from 'react-hook-form'
-import { ScrollView } from 'react-native'
+import { NativeSyntheticEvent, ScrollView, TextInputSubmitEditingEventData } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Spacer from 'react-spacer'
 import { HStack, VStack } from 'react-stacked'
@@ -75,12 +75,20 @@ const Landing: React.FC = () => {
                 fieldArray.remove(index)
               }
 
+              const handleSubmitEditing = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void => {
+                e.preventDefault()
+
+                fieldArray.insert(index + 1, { name: '', time: field.time })
+              }
+
               return (
                 <HStack key={field.id} maxWidth={480} paddingHorizontal={16}>
                   <FormTextInput
+                    autoFocus
                     form={form}
                     name={`players.${index}.name`}
                     title='Name'
+                    onSubmitEditing={handleSubmitEditing}
                     type='default'
                   />
 

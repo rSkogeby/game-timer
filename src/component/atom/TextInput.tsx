@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { StyleSheet, TextInput as Upstream, TextInputProps as UpstreamProps } from 'react-native'
+import { NativeSyntheticEvent, StyleSheet, TextInputKeyPressEventData, TextInputSubmitEditingEventData, TextInput as Upstream, TextInputProps as UpstreamProps } from 'react-native'
 import tinycolor from 'tinycolor2'
 import unreachable from 'ts-unreachable'
 
@@ -55,6 +55,8 @@ interface TextInputProps {
   onBlur?: () => void
   onChange: (input: string) => void
   onFocus?: () => void
+  onKeyPress?: ((e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void) | undefined
+  onSubmitEditing?: ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void) | undefined
   placeholder?: string
   textColor?: string
   /** @defaultValue default */
@@ -96,6 +98,8 @@ const TextInput: React.FC<TextInputProps> = (props) => {
       onBlur={props.onBlur}
       onChangeText={props.onChange}
       onFocus={props.onFocus}
+      onKeyPress={props.onKeyPress}
+      onSubmitEditing={props.onSubmitEditing}
       placeholder={props.placeholder}
       placeholderTextColor={placeholderTextColor}
       keyboardType='ascii-capable'
