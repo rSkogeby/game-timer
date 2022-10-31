@@ -19,7 +19,9 @@
     "expo": "^46.0.0",
     "expo-av": "~12.0.4",
     "expo-speech": "~10.3.0",
+    "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.6",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-hook-form": "^7.38.0",
@@ -32,8 +34,7 @@
     "react-with-separator": "^1.2.1",
     "tinycolor2": "^1.4.2",
     "ts-unreachable": "^1.0.0",
-    "yup": "^0.29.3",
-    "expo-splash-screen": "~0.16.2"
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
