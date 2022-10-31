@@ -3,7 +3,7 @@
     "name": "game-timer",
     "slug": "game-timer",
     "owner": "rskogeby",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,7 +19,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rskogeby.gametimer"
+      "bundleIdentifier": "com.rskogeby.gametimer",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
