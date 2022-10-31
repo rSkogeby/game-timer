@@ -84,7 +84,7 @@ const Landing: React.FC = () => {
               return (
                 <HStack key={field.id} maxWidth={480} paddingHorizontal={16}>
                   <FormTextInput
-                    autoFocus
+                    autoFocus={index !== 0}
                     form={form}
                     name={`players.${index}.name`}
                     title='Name'

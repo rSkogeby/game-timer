@@ -117,7 +117,7 @@ const Timer: React.FC = () => {
         type={countdownState === 'counting' ? 'outlined' : 'filled'}
       />
 
-      <Spacer height={insets.bottom} />
+      <Spacer height={16 + insets.bottom} />
     </VStack>
   )
 }
