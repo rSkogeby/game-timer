@@ -5,7 +5,8 @@
   "scripts": {
     "configure": "./scripts/configure",
     "publish": "./scripts/publish --no-wait",
-    "start": "npx expo-cli@6.0.6 start --clear"
+    "start": "npx expo-cli@6.0.6 start --clear",
+    "test": "tsc && ts-standard"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
