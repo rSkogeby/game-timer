@@ -43,7 +43,7 @@ async function publish ({ interactive = false, noWait = false, verbose = false }
   let expoPublishEnv
   await task('Checking Sentry credentials', interactive || verbose, async () => {
     const { password } = await readCredential('Game Timer Sentry')
-    expoPublishEnv = { SENTRY_AUTH_TOKEN: password }
+    expoPublishEnv = { SENTRY_AUTH_TOKEN: password, SENTRY_ORG: 'game-timer', SENTRY_PROJECT: 'react-native' }
   })
 
   await task('Incrementing build number', interactive || verbose, async () => {
@@ -57,7 +57,8 @@ async function publish ({ interactive = false, noWait = false, verbose = false }
   })
 
   await task('Building and submitting app', interactive || verbose, async () => {
-    const env = { ...process.env, ...expoAppleIdEnv, ...expoPublishEnv, EAS_NO_VCS: '1' }
+    const appInfo = JSON.parse(await fs.readFile('app.json', { encoding: 'utf8' }))
+    const env = { ...process.env, ...expoAppleIdEnv, ...expoPublishEnv, EAS_NO_VCS: '1', VERSION: appInfo.version }
     const waitFlag = (noWait ? '--no-wait' : '--wait')
     const platform = 'ios'
 
