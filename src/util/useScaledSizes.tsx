@@ -53,6 +53,8 @@ export function calculateScaledSize (width: number, sizes: DeviceFontSizes): num
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function getValues (width: number) {
   return {
+    descriptionTextSize: calculateScaledSize(width, { iPhonePro: 14, iPhoneProMax: 14, iPadAir: 18, iPadPro: 20 }),
+    headingTextSize: calculateScaledSize(width, { iPhonePro: 20, iPhoneProMax: 20, iPadAir: 23, iPadPro: 24 }),
     labelIconSize: calculateScaledSize(width, { iPhonePro: 21, iPhoneProMax: 21, iPadAir: 32, iPadPro: 34 }),
     labelPadding: calculateScaledSize(width, { iPhonePro: 6, iPhoneProMax: 6, iPadAir: 8, iPadPro: 8 }),
     labelSize: calculateScaledSize(width, { iPhonePro: 14, iPhoneProMax: 14, iPadAir: 22, iPadPro: 22 }),

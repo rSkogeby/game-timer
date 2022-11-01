@@ -40,6 +40,12 @@ async function publish ({ interactive = false, noWait = false, verbose = false }
     expoAppleIdEnv = { EXPO_APPLE_ID: account, EXPO_APPLE_PASSWORD: password }
   })
 
+  let expoPublishEnv
+  await task('Checking Sentry credentials', interactive || verbose, async () => {
+    const { password } = await readCredential('Loco Sentry')
+    expoPublishEnv = { SENTRY_AUTH_TOKEN: password }
+  })
+
   await task('Incrementing build number', interactive || verbose, async () => {
     const appInfo = JSON.parse(await fs.readFile('app.json', { encoding: 'utf8' }))
     console.warn('appInfo', appInfo)

@@ -1,10 +1,12 @@
 import { NavigationContainerRef } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, Easing } from 'react-native'
 
+import { ErrorBoundary, registerNavigationContainer } from './src/client/sentry'
 import NavigationContainer from './src/component/molecule/NavigationContainer'
 import NavigationRootStack from './src/component/molecule/NavigationRootStack'
+import FallbackComponent from './src/component/template/FallbackComponent'
 import { ParamList, linkingOptions } from './src/lib/navigation'
 import Landing from './src/screen/Landing'
 import Timer from './src/screen/Timer'
@@ -29,6 +31,10 @@ const App: React.FC = () => {
   const opacityFade = useRef(new Animated.Value(1)).current
   const textMovement = useRef(new Animated.Value(55)).current
 
+  const handleReady = useCallback(() => {
+    registerNavigationContainer(navigation)
+  }, [])
+
   useEffect(() => {
     Animate(logoScale, { duration: 500, toValue: 1 }).start(({ finished }) => {
       if (finished) {
@@ -47,65 +53,67 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    <ScaledSizesProvider>
-      <PlayerProvider>
-        <NavigationContainer linkingOptions={linkingOptions} ref={navigation}>
-          {appIsReady
-            ? null
-            : (
-              <Animated.View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor, opacity: opacityFade, zIndex: 1 }}>
-                <Animated.View
-                  style={{
-                    alignItems: 'center',
-                    flexGrow: 1,
-                    justifyContent: 'center',
-                    flexDirection: 'row'
-                  }}
-                >
+    <ErrorBoundary fallback={FallbackComponent}>
+      <ScaledSizesProvider>
+        <PlayerProvider>
+          <NavigationContainer linkingOptions={linkingOptions} onReady={handleReady} ref={navigation}>
+            {appIsReady
+              ? null
+              : (
+                <Animated.View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor, opacity: opacityFade, zIndex: 1 }}>
                   <Animated.View
                     style={{
-                      backgroundColor,
-                      height: '100%',
-                      left: 0,
-                      position: 'absolute',
-                      transform: [{ translateX: iconMovement }],
-                      width: '50%',
-                      zIndex: 2
+                      alignItems: 'center',
+                      flexGrow: 1,
+                      justifyContent: 'center',
+                      flexDirection: 'row'
                     }}
-                  />
+                  >
+                    <Animated.View
+                      style={{
+                        backgroundColor,
+                        height: '100%',
+                        left: 0,
+                        position: 'absolute',
+                        transform: [{ translateX: iconMovement }],
+                        width: '50%',
+                        zIndex: 2
+                      }}
+                    />
 
-                  <Animated.Image
-                    source={require('./assets/icon_gradient.png')}
-                    style={{
-                      position: 'absolute',
-                      resizeMode: 'contain',
-                      transform: [{ scale: logoScale }, { translateX: iconMovement }],
-                      zIndex: 2,
-                      width: 120
-                    }}
-                  />
+                    <Animated.Image
+                      source={require('./assets/icon_gradient.png')}
+                      style={{
+                        position: 'absolute',
+                        resizeMode: 'contain',
+                        transform: [{ scale: logoScale }, { translateX: iconMovement }],
+                        zIndex: 2,
+                        width: 120
+                      }}
+                    />
 
-                  <Animated.Image
-                    source={require('./assets/logo_text.png')}
-                    style={{
-                      position: 'absolute',
-                      resizeMode: 'contain',
-                      transform: [{ scale: logoScale }, { translateX: textMovement }],
-                      zIndex: 1,
-                      width: 300
-                    }}
-                  />
+                    <Animated.Image
+                      source={require('./assets/logo_text.png')}
+                      style={{
+                        position: 'absolute',
+                        resizeMode: 'contain',
+                        transform: [{ scale: logoScale }, { translateX: textMovement }],
+                        zIndex: 1,
+                        width: 300
+                      }}
+                    />
+                  </Animated.View>
                 </Animated.View>
-              </Animated.View>
-              )}
+                )}
 
-          <NavigationRootStack initialRouteName='Landing'>
-            <RootStack.Screen name='Settings' component={Landing} />
-            <RootStack.Screen name='Timer' component={Timer} />
-          </NavigationRootStack>
-        </NavigationContainer>
-      </PlayerProvider>
-    </ScaledSizesProvider>
+            <NavigationRootStack initialRouteName='Landing'>
+              <RootStack.Screen name='Settings' component={Landing} />
+              <RootStack.Screen name='Timer' component={Timer} />
+            </NavigationRootStack>
+          </NavigationContainer>
+        </PlayerProvider>
+      </ScaledSizesProvider>
+    </ErrorBoundary>
   )
 }
 
