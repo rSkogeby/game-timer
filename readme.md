@@ -1,11 +1,17 @@
 # Game Timer
 
+## Get started
+
+```zsh
+  npm ci
+  npm run configure
+  npm start
+```
+
 ## Publish
 
 ```zsh
-  npx eas-cli@latest build:configure
-  npx eas-cli@latest build --platform=ios
-  npx eas-cli@latest submit
+  npm run publish
 ```
 
 ## Debugging production build

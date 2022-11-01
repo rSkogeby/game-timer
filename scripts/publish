@@ -9,7 +9,7 @@ const incrementBuildNumber = require('./lib/build-number')
 const readCredential = require('./lib/readCredential')
 const task = require('./lib/task')
 
-const EAS = 'eas-cli@2.5.1'
+const EAS = 'eas-cli@2.6.0'
 
 const usage = `
 Deploy
