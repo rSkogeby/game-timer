@@ -20,7 +20,16 @@ const NavigationRootStack: React.FC<NavigationRootStackProps> = ({ children, ini
   const screenOptions: StackNavigationOptions = useMemo(() => ({
     headerTitle: () => (
       <VStack paddingBottom={navigationHeaderImagePadding}>
-        <Image source={require('../../../assets/full_logo.png')} style={{ resizeMode: 'contain', width: navigationHeaderImageWidth }} />
+        <Image
+          resizeMode='contain'
+          source={require('../../../assets/full_logo.png')}
+          style={{
+            aspectRatio: 3.71629543,
+            backgroundColor: '#ffffff',
+            height: undefined,
+            width: navigationHeaderImageWidth
+          }}
+        />
       </VStack>
     ),
     headerTintColor: theme.primary.main
