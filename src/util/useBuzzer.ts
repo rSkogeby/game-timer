@@ -1,7 +1,9 @@
 import { Audio } from 'expo-av'
 
+import * as buzzer from '../../assets/buzzer.wav'
+
 const buzzerDuration = 1185
-const buzzerPromise = Audio.Sound.createAsync(require('../../assets/buzzer.wav'), { volume: 0.8 })
+const buzzerPromise = Audio.Sound.createAsync(buzzer, { volume: 0.8 })
 
 type PlayBuzzer = (callback?: () => void) => void
 
